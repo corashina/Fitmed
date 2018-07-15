@@ -13,6 +13,7 @@ const db = require('./config/keys_dev').mongoURI;
 
 mongoose.Promise = global.Promise;
 
+
 mongoose
   .connect(db, { useMongoClient: true })
   .then(() => console.log("MongoDB Connected"))
