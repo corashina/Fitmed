@@ -10,13 +10,14 @@ router.get('/test', (req, res) => res.json({ message: 'User api works' }));
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
-  if (!isValid) return res.json(errors).status(400);
+  if (!isValid) return res.status(400).json(errors);
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       errors.email = 'Email already exists';
       return res.status(400).json(errors);
     } else {
+
       const newUser = new User({
         firstname: req.body.firstname,
         lastname: req.body.lastname,

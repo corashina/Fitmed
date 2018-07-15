@@ -13,11 +13,15 @@ module.exports = function validateRegisterInput(data) {
   data.sex = !isEmpty(data.sex) ? data.sex : '';
   data.phone = !isEmpty(data.phone) ? data.phone : '';
 
-  if (!Validator.isLength(data.firstname, { min: 2, max: 30 })) errors.firstname = 'Firstname must have 2-30 characters';
   if (Validator.isEmpty(data.firstname)) errors.firstname = 'Firstname field is required';
+  if (!Validator.isLength(data.firstname, { min: 2, max: 30 })) errors.firstname = 'Firstname must have 2-30 characters';
 
-  if (!Validator.isLength(data.lastname, { min: 2, max: 30 })) errors.lastname = 'Lastname must have 2-30 characters';
-  if (Validator.isEmpty(data.lastname)) errors.lastname = 'Name field is required';
+  if (Validator.isEmpty(data.lastname)) errors.lastname = 'Lastname field is required';
+  if (!Validator.isLength(data.lastname, { min: 2, max: 30 })) {
+    console.log(!Validator.isLength(data.lastname, { min: 2, max: 30 }))
+    console.log(data.lastname)
+    errors.lastname = 'Lastname must have 2-30 characters';
+  }
 
   if (Validator.isEmpty(data.email)) errors.email = 'Email field is required';
   if (!Validator.isEmail(data.email)) errors.email = 'Email is invalid';
@@ -31,7 +35,6 @@ module.exports = function validateRegisterInput(data) {
   if (Validator.isEmpty(data.birthday)) errors.birthday = 'Birthday field is required';
 
   if (Validator.isEmpty(data.sex)) errors.sex = 'Sex field is required';
-  if (!Validator.equals(data.sex, "M") || !Validator.equals(data.sex, "F")) errors.sex = "Invalid sex";
 
   if (Validator.isEmpty(data.phone)) errors.phone = 'Phone field is required';
 
