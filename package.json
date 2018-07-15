@@ -4,7 +4,9 @@
     "description": "Fitmed System",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "client": "npm start --prefix client",
+        "dev": "concurrently \"npm start\" \"npm run client\""
     },
     "repository": {
         "type": "git",
@@ -21,7 +23,8 @@
     "homepage": "https://github.com/Tomasz-Zielinski/Fitmed#readme",
     "dependencies": {
         "express": "^4.16.3",
-        "mongoose": "^4.13.14"
+        "mongoose": "^4.13.14",
+        "validator": "^10.4.0"
     },
     "devDependencies": {
         "nodemon": "^1.18.2"
