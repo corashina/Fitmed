@@ -10,7 +10,6 @@ export default class Register extends Component {
        		<input type="password" placeholder="hasło" name="password" />
        		<input type="text" placeholder="imię" name="name" />
        		<input type="text" placeholder="nazwisko" name="surname" />
-       		<input type="text" placeholder="email" name="email" />
 
 
        		<input type="submit" />
