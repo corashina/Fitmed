@@ -2,8 +2,11 @@ import React from 'react'
 
 export default () => {
   return (
-    <div>
-      <button>Siema jestem ostrym byczkiem</button>
+    <div className="navbar-top">
+
+    	<div className="burger"></div>
+    	<div className="icons"></div>
+
     </div>
   )
 }
