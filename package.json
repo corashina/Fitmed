@@ -1,29 +1,29 @@
 {
-  "name": "fitmed",
-  "version": "1.0.0",
-  "description": "Fitmed System",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Tomasz-Zielinski/Fitmed.git"
-  },
-  "keywords": [
-    "Fitmed"
-  ],
-  "author": "Krzysztof Kurek",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Tomasz-Zielinski/Fitmed/issues"
-  },
-  "homepage": "https://github.com/Tomasz-Zielinski/Fitmed#readme",
-  "dependencies": {
-    "express": "^4.16.3",
-    "mongoose": "^5.2.3"
-  },
-  "devDependencies": {
-    "nodemon": "^1.18.2"
-  }
+    "name": "fitmed",
+    "version": "1.0.0",
+    "description": "Fitmed System",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Tomasz-Zielinski/Fitmed.git"
+    },
+    "keywords": [
+        "Fitmed"
+    ],
+    "author": "Krzysztof Kurek",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Tomasz-Zielinski/Fitmed/issues"
+    },
+    "homepage": "https://github.com/Tomasz-Zielinski/Fitmed#readme",
+    "dependencies": {
+        "express": "^4.16.3",
+        "mongoose": "^4.13.14"
+    },
+    "devDependencies": {
+        "nodemon": "^1.18.2"
+    }
 }
