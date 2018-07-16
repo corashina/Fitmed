@@ -34,9 +34,9 @@ export default class Register extends Component {
 			sex: this.state.sex,
 			phone: this.state.phone
 		};
-		axios.post('http://localhost:5000/api/register', newUser)
-			.then(res => console.log(res))
-			.catch(err => console.log(err));
+		axios.post('/api/register', newUser)
+			.then(res => this.setState({ errors: { message: "User created!" } }))
+			.catch(err => { this.setState({ errors: err.response.data }) });
 	}
 	render() {
 		return (
@@ -95,6 +95,7 @@ export default class Register extends Component {
 					<input type="submit" onClick={this.onSubmit} />
 				</form>
 				<div>
+					<p>Errors: {Object.values(this.state.errors).map((error, i) => <li key={i}>{error}</li>)}</p>
 					<p>Fistname: {this.state.firstname}</p>
 					<p>Lastname: {this.state.lastname}</p>
 					<p>Email: {this.state.email}</p>
