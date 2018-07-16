@@ -19,9 +19,8 @@ export default class Register extends Component {
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 	}
-	onChange(e) {
-		this.setState({ [e.target.name]: e.target.value });
-	}
+	onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
+	onRadioChange(value) { this.setState({ sex: value }) }
 	onSubmit(e) {
 		e.preventDefault();
 
@@ -43,17 +42,17 @@ export default class Register extends Component {
 		return (
 			<div>
 				<form>
-					<input type="firstname"
+					<input type="text"
 						placeholder="firstname"
 						name="firstname"
 						value={this.state.firstname}
 						onChange={this.onChange} />
-					<input type="lastname"
+					<input type="text"
 						placeholder="lastname"
 						name="lastname"
 						value={this.state.lastname}
 						onChange={this.onChange} />
-					<input type="email"
+					<input type="text"
 						placeholder="email"
 						name="email"
 						value={this.state.email}
@@ -63,30 +62,48 @@ export default class Register extends Component {
 						name="password"
 						value={this.state.password}
 						onChange={this.onChange} />
-					<input type="password2"
+					<input type="password"
 						placeholder="password2"
 						name="password2"
 						value={this.state.password2}
 						onChange={this.onChange} />
-					<input type="birthday"
+					<input type="date"
 						placeholder="birthday"
 						name="birthday"
 						value={this.state.birthday}
 						onChange={this.onChange} />
-					<input type="sex"
-						placeholder="sex"
-						name="sex"
-						value={this.state.sex}
-						onChange={this.onChange} />
-					<input type="phone"
+
+					<p>
+						<label>
+							<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Male')} checked={this.state.sex === 'Male'} />
+							<span>Male</span>
+						</label>
+					</p>
+					<p>
+						<label>
+							<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Female')} />
+							<span>Female</span>
+						</label>
+					</p>
+
+					<input type="text"
 						placeholder="phone"
 						name="phone"
 						value={this.state.phone}
 						onChange={this.onChange} />
 
 					<input type="submit" onClick={this.onSubmit} />
-
 				</form>
+				<div>
+					<p>Fistname: {this.state.firstname}</p>
+					<p>Lastname: {this.state.lastname}</p>
+					<p>Email: {this.state.email}</p>
+					<p>Password: {this.state.password}</p>
+					<p>Password2: {this.state.password2}</p>
+					<p>Birthday: {this.state.birthday}</p>
+					<p>Sex: {this.state.sex}</p>
+					<p>Phone: {this.state.phone}</p>
+				</div>
 			</div>
 		)
 	}
