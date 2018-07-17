@@ -10,7 +10,7 @@ export default class Users extends Component {
     }
   }
   componentDidMount() {
-    axios.get('/api/users/users', { params: { jwt: localStorage.getItem('jwt') } })
+    axios.get('/api/users', { params: { jwt: localStorage.getItem('jwt') } })
       .then(res => this.setState({ users: res.data }))
       .catch(err => this.props.history.push('/home'));
   }

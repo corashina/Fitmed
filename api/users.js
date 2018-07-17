@@ -59,7 +59,6 @@ router.post('/login', (req, res) => {
       jwt.sign(
         { id: user.id, user },
         'secret',
-        { expiresIn: 3600 },
         (err, token) => {
           res.json({
             user,
@@ -75,14 +74,13 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/current', (req, res) => {
-  console.log(req.headers.token)
   jwt.verify(req.headers.token, 'secret', (err, decoded) => {
     if (decoded) res.json(decoded)
     else res.json({ success: false })
   });
 })
 
-router.get('/users', (req, res) => {
+router.get('/', (req, res) => {
   jwt.verify(req.query.jwt, 'secret', (err, decoded) => {
     if (decoded.user.role === 'Admin') {
       User.find().then(users => {

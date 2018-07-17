@@ -3,7 +3,9 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
 const users = require('./api/users');
+const products = require('./api/products');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,6 +20,7 @@ mongoose
   .catch(err => console.log(err));
 
 app.use('/api/users', users);
+app.use('/api/products', products);
 
 app.use(express.static('client/build'));
 
