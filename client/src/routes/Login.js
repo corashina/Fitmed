@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-
+import jwt_decode from 'jwt-decode';
 
 export default class Register extends Component {
   constructor(props) {
@@ -24,33 +24,45 @@ export default class Register extends Component {
 
     axios.post('/api/users/login', userData)
       .then(res => {
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-        this.setState({ errors: res.data.user })
+        localStorage.setItem('jwt', res.data.token);
+        localStorage.setItem('user', JSON.stringify(jwt_decode(res.data.token).user));
+        this.props.history.push('/home');
       })
       .catch(err => { this.setState({ errors: err.response.data }) });
   }
   render() {
     return (
       <div>
-        <form noValidate onSubmit={this.onSubmit}>
-          <input type="text"
-            placeholder="email"
-            name="email"
-            value={this.state.email}
-            onChange={this.onChange} />
-          <input type="password"
-            placeholder="password"
-            name="password"
-            value={this.state.password}
-            onChange={this.onChange} />
-
-          <input type="submit" />
+        <form className='card-center' noValidate onSubmit={this.onSubmit}>
+          <div className="col s12 m7 register">
+            <div className="card horizontal">
+              <div className="card-stacked">
+                <div className="card-content">
+                  <div className="input-field col s6">
+                    <i className="material-icons prefix">email</i>
+                    <input id="email" className={this.state.errors.email === undefined ? '' : 'invalid'} type="text" autoComplete="off"
+                      placeholder="Email"
+                      name="email"
+                      value={this.state.email}
+                      onChange={this.onChange} />
+                    <span className="helper-text" data-error={this.state.errors.email}></span>
+                  </div>
+                  <div className="input-field col s6">
+                    <i className="material-icons prefix">lock</i>
+                    <input id="password" className={this.state.errors.password === undefined ? '' : 'invalid'} type="password" autoComplete="off"
+                      placeholder="Password"
+                      name="password"
+                      value={this.state.password}
+                      onChange={this.onChange} />
+                    <span className="helper-text" data-error={this.state.errors.password}></span>
+                  </div>
+                  <button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Submit
+									</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
-        <div>
-          <p>Errors: {Object.values(this.state.errors).map((error, i) => <li key={i}>{error}</li>)}</p>
-          <p>Email: {this.state.Email}</p>
-          <p>Password: {this.state.Password}</p>
-        </div>
       </div>
     )
   }

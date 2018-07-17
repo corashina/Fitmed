@@ -57,13 +57,13 @@ router.post('/login', (req, res) => {
 
     if (password == user.password) {
       jwt.sign(
-        { id: user.id, firstname: user.firstname, lastname: user.lastname },
+        { id: user.id, user },
         'secret',
         { expiresIn: 3600 },
         (err, token) => {
           res.json({
             user,
-            token: 'Bearer ' + token
+            token
           });
         }
       );
@@ -74,11 +74,28 @@ router.post('/login', (req, res) => {
   });
 })
 
-router.post('/current', (req, res) => {
-  jwt.verify(req.body.token, 'secret', (err, decoded) => {
+router.get('/current', (req, res) => {
+  console.log(req.headers.token)
+  jwt.verify(req.headers.token, 'secret', (err, decoded) => {
     if (decoded) res.json(decoded)
     else res.json({ success: false })
   });
 })
+
+router.get('/users', (req, res) => {
+  jwt.verify(req.query.jwt, 'secret', (err, decoded) => {
+    if (decoded.user.role === 'Admin') {
+      User.find().then(users => {
+        if (users) {
+          users.sort((a, b) => a.firstname - b.lastname).reverse();
+          return res.status(200).json(users);
+        } else {
+          return res.status(400).json({ error: 'No users' })
+        }
+      })
+    } else res.status(400).json({ permission: 'Denied' })
+  });
+})
+
 
 module.exports = router;
