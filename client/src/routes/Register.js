@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Navbar from '../components/Navbar'
 import axios from 'axios';
 
 
@@ -12,7 +13,7 @@ export default class Register extends Component {
 			password: '',
 			password2: '',
 			birthday: '',
-			sex: '',
+			sex: 'Male',
 			phone: '',
 			errors: {}
 		};
@@ -35,77 +36,96 @@ export default class Register extends Component {
 			phone: this.state.phone
 		};
 		axios.post('/api/users/register', newUser)
-			.then(res => this.setState({ errors: { message: "User created!" } }))
-			.catch(err => { this.setState({ errors: err.response.data }) });
+			.then(res => {
+				this.setState({ errors: { message: "User created!" } })
+			})
+			.catch(err => {
+				this.setState({ errors: err.response.data })
+			});
 	}
 	render() {
 		return (
 			<div>
-				<form noValidate onSubmit={this.onSubmit}>
-					<input type="text"
-						placeholder="firstname"
-						name="firstname"
-						value={this.state.firstname}
-						onChange={this.onChange} />
-					<input type="text"
-						placeholder="lastname"
-						name="lastname"
-						value={this.state.lastname}
-						onChange={this.onChange} />
-					<input type="text"
-						placeholder="email"
-						name="email"
-						value={this.state.email}
-						onChange={this.onChange} />
-					<input type="password"
-						placeholder="password"
-						name="password"
-						value={this.state.password}
-						onChange={this.onChange} />
-					<input type="password"
-						placeholder="password2"
-						name="password2"
-						value={this.state.password2}
-						onChange={this.onChange} />
-					<input type="date"
-						placeholder="birthday"
-						name="birthday"
-						value={this.state.birthday}
-						onChange={this.onChange} />
+				<Navbar />
+				<form className="register" noValidate onSubmit={this.onSubmit}>
+					<div className="col s12 m7 register">
+						<div className="card horizontal">
+							<div className="card-stacked">
+								<div className="card-content">
+									<div className="input-field col s12">
+										<input id="firstname" className={this.state.errors.firstname === undefined ? '' : 'invalid'} type="text" autoComplete="off"
+											placeholder="Firstname"
+											name="firstname"
+											value={this.state.firstname}
+											onChange={this.onChange} />
+										<span className="helper-text" data-error={this.state.errors.firstname}></span>
+									</div>
+									<div className="input-field col s12">
+										<input id="lastname" type="text" autoComplete="off" className={this.state.errors.lastname === undefined ? '' : 'invalid'}
+											placeholder="Lastname"
+											name="lastname"
+											value={this.state.lastname}
+											onChange={this.onChange} />
+										<span className="helper-text" data-error={this.state.errors.lastname}></span>
+									</div>
+									<div className="input-field col s12">
+										<input id="email" type="email" autoComplete="off" className={this.state.errors.email === undefined ? '' : 'invalid'}
+											placeholder="Email"
+											name="email"
+											value={this.state.email}
+											onChange={this.onChange} />
+										<span className="helper-text" data-error={this.state.errors.email}></span>
+									</div>
+									<div className="input-field col s12">
+										<input id="password" type="password" autoComplete="off" className={this.state.errors.password === undefined ? '' : 'invalid'}
+											placeholder="Password"
+											name="password"
+											value={this.state.password}
+											onChange={this.onChange} />
+										<span className="helper-text" data-error={this.state.errors.password}></span>
+									</div>
+									<div className="input-field col s12">
+										<input id="password2" type="password" autoComplete="off" className={this.state.errors.password === undefined ? '' : 'invalid'}
+											placeholder="Confirm password"
+											name="password2"
+											value={this.state.password2}
+											onChange={this.onChange} />
+										<span className="helper-text" data-error={this.state.errors.password2}></span>
+									</div>
+									<div className="input-field col s12">
+										<input id="date" type="date" className={this.state.errors.birthday === undefined ? '' : 'invalid'}
+											placeholder="Birthday"
+											name="birthday"
+											value={this.state.birthday}
+											onChange={this.onChange} />
+										<span className="helper-text" data-error={this.state.errors.birthday}></span>
+									</div>
 
-					<p>
-						<label>
-							<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Male')} checked={this.state.sex === 'Male'} />
-							<span>Male</span>
-						</label>
-					</p>
-					<p>
-						<label>
-							<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Female')} />
-							<span>Female</span>
-						</label>
-					</p>
+									<label>
+										<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Male')} checked={this.state.sex === 'Male'} />
+										<span style={{ marginRight: '20px' }} >Male</span>
+									</label>
+									<label>
+										<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Female')} />
+										<span>Female</span>
+									</label>
 
-					<input type="text"
-						placeholder="phone"
-						name="phone"
-						value={this.state.phone}
-						onChange={this.onChange} />
-
-					<input type="submit" />
+									<div className="input-field col s12">
+										<input id="phone" type="text" autoComplete="off" className={this.state.errors.phone === undefined ? '' : 'invalid'}
+											placeholder="Phone"
+											name="phone"
+											value={this.state.phone}
+											onChange={this.onChange} />
+										<span className="helper-text" data-error={this.state.errors.phone}></span>
+									</div>
+									<button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Submit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</form>
-				<div>
-					<p>Errors: {Object.values(this.state.errors).map((error, i) => <li key={i}>{error}</li>)}</p>
-					<p>Fistname: {this.state.firstname}</p>
-					<p>Lastname: {this.state.lastname}</p>
-					<p>Email: {this.state.email}</p>
-					<p>Password: {this.state.password}</p>
-					<p>Password2: {this.state.password2}</p>
-					<p>Birthday: {this.state.birthday}</p>
-					<p>Sex: {this.state.sex}</p>
-					<p>Phone: {this.state.phone}</p>
-				</div>
-			</div>
+			</div >
 		)
 	}
 }
