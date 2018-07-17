@@ -3,7 +3,6 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
 const users = require('./api/users');
 
 app.use(bodyParser.json());
@@ -18,7 +17,7 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-app.use('/api', users);
+app.use('/api/users', users);
 
 app.use(express.static('client/build'));
 

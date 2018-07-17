@@ -23,6 +23,7 @@
     "homepage": "https://github.com/Tomasz-Zielinski/Fitmed#readme",
     "dependencies": {
         "express": "^4.16.3",
+        "jsonwebtoken": "^8.3.0",
         "mongoose": "^4.13.14",
         "validator": "^10.4.0"
     },

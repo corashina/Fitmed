@@ -34,14 +34,14 @@ export default class Register extends Component {
 			sex: this.state.sex,
 			phone: this.state.phone
 		};
-		axios.post('/api/register', newUser)
+		axios.post('/api/users/register', newUser)
 			.then(res => this.setState({ errors: { message: "User created!" } }))
 			.catch(err => { this.setState({ errors: err.response.data }) });
 	}
 	render() {
 		return (
 			<div>
-				<form>
+				<form noValidate onSubmit={this.onSubmit}>
 					<input type="text"
 						placeholder="firstname"
 						name="firstname"
@@ -92,7 +92,7 @@ export default class Register extends Component {
 						value={this.state.phone}
 						onChange={this.onChange} />
 
-					<input type="submit" onClick={this.onSubmit} />
+					<input type="submit" />
 				</form>
 				<div>
 					<p>Errors: {Object.values(this.state.errors).map((error, i) => <li key={i}>{error}</li>)}</p>
