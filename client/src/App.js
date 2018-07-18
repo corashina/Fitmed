@@ -6,6 +6,7 @@ import Register from './routes/Register';
 import Login from './routes/Login';
 import Users from './routes/Users';
 import Products from './routes/Products';
+import Recipes from './routes/Recipes';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
           <Route path='/home' exact component={Home} />
           <Route path='/users' exact component={Users} />
           <Route path='/products' exact component={Products} />
+          <Route path='/recipes' exact component={Recipes} />
         </div>
       </BrowserRouter>)
     );

@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
           return res.status(400).json({ error: 'No products' })
         }
       })
-    } else res.status(400).json({ permission: 'Denied' })
+    } else res.status(400).json({ permission: 'User not authorized' })
   });
 })
 

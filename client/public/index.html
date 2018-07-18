@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <title>System Fitmed</title>
+    <title>Fitmed</title>
 </head>
 
 <body>
@@ -18,14 +18,14 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
-    <!-- <a onclick="toast()" class="btn ">Toast!</a> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js "></script>
 
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems);
+        M.Sidenav.init(document.querySelectorAll('.sidenav'));
+        M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
+        M.Modal.init(document.querySelectorAll('.modal'), { startingTop: '1%' });
     });
 </script>
 

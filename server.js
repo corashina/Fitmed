@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 const users = require('./api/users');
 const products = require('./api/products');
+const recipes = require('./api/recipes');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,6 +22,7 @@ mongoose
 
 app.use('/api/users', users);
 app.use('/api/products', products);
+app.use('/api/recipes', recipes);
 
 app.use(express.static('client/build'));
 
