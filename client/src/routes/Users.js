@@ -18,15 +18,15 @@ export default class Users extends Component {
     return (
       <div >
         <Navbar />
-        <table className="striped highlight">
+        <table className="striped highlight centered">
           <thead >
             <tr>
-              <th>Firstname</th>
-              <th>Lastname</th>
+              <th>Imie</th>
+              <th>Nazwisko</th>
               <th>Email</th>
-              <th>Birthday</th>
-              <th>Sex</th>
-              <th>Phone</th>
+              <th>Data urodzenia</th>
+              <th>Płeć</th>
+              <th>Numer telefonu</th>
             </tr>
           </thead>
 

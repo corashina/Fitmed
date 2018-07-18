@@ -15,7 +15,7 @@ export default class Navbar extends Component {
       <div className="navbar-fixed">
         <nav>
           <div className="nav-wrapper white" style={{ padding: '0 1rem' }}>
-            <a href="/home" className="brand-logo">Fitmed<i className="material-icons">menu</i></a>
+            <a href="/home" className="brand-logo">Fitmed</a>
             <ul className="right hide-on-med-and-down">
               {this.state.isLoggedIn && JSON.parse(localStorage.getItem('user')).role === 'User' &&
                 < div >

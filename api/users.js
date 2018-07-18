@@ -1,6 +1,7 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
@@ -16,7 +17,7 @@ router.post('/register', (req, res) => {
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      errors.email = 'Email already exists';
+      errors.email = 'Podany adres email już istnieje';
       return res.status(400).json(errors);
     } else {
 
@@ -25,17 +26,22 @@ router.post('/register', (req, res) => {
         lastname: req.body.lastname,
         email: req.body.email,
         password: req.body.password,
-        password2: req.body.password2,
         birthday: req.body.birthday,
         sex: req.body.sex,
         phone: req.body.phone,
         role: 'User'
       });
 
-      newUser
-        .save()
-        .then(user => res.json(user))
-        .catch(err => console.log(err));
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err));
+        });
+      });
     }
   });
 });
@@ -51,33 +57,35 @@ router.post('/login', (req, res) => {
   User.findOne({ email }).then(user => {
 
     if (!user) {
-      errors.email = 'User not found';
+      errors.email = 'Email nie istnieje';
       return res.status(404).json(errors);
     }
 
-    if (password == user.password) {
-      jwt.sign(
-        { id: user.id, user },
-        'secret',
-        (err, token) => {
-          res.json({
-            user,
-            token
-          });
-        }
-      );
-    } else {
-      errors.password = 'Password incorrect';
-      return res.status(400).json(errors);
-    }
-  });
-})
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        jwt.sign(
+          { id: user.id, user },
+          'secret',
+          (err, token) => {
+            res.json({
+              user,
+              token
+            });
+          }
+        );
+      } else {
+        errors.password = 'Nieprawidłowe hasło';
+        return res.status(400).json(errors);
+      }
+    });
+  })
 
-router.get('/current', (req, res) => {
-  jwt.verify(req.headers.token, 'secret', (err, decoded) => {
-    if (decoded) res.json(decoded)
-    else res.json({ success: false })
-  });
+  router.get('/current', (req, res) => {
+    jwt.verify(req.headers.token, 'secret', (err, decoded) => {
+      if (decoded) res.json(decoded)
+      else res.json({ success: false })
+    });
+  })
 })
 
 router.get('/', (req, res) => {
@@ -88,10 +96,10 @@ router.get('/', (req, res) => {
           users.sort((a, b) => a.firstname - b.lastname).reverse();
           return res.status(200).json(users);
         } else {
-          return res.status(400).json({ error: 'No users' })
+          return res.status(400).json({ error: 'Brak użytkowników' })
         }
       })
-    } else res.status(400).json({ permission: 'Denied' })
+    } else res.status(400).json({ permission: 'Brak autoryzacji' })
   });
 })
 

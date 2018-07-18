@@ -7,8 +7,10 @@ export default class Users extends Component {
     super(props);
     this.state = {
       name: '',
-      unit: '',
-      category: '',
+      unit: 'Gram',
+      category: 'Warzywa',
+      units: ['Gram', 'Kilogram', 'Szczypta'],
+      categories: ['Warzywa', 'Owoce', 'Mieso', 'Nabiał', 'Pieczywo', 'Ryby', 'Napój'],
       products: [],
       errors: {}
     }
@@ -28,9 +30,9 @@ export default class Users extends Component {
 
     axios.post('/api/products', newProduct)
       .then(res => {
-        this.setState({ errors: {}, name: '', unit: '', category: '' })
+        this.setState({ errors: {}, name: '' })
         this.getProducts();
-        window.M.toast({ html: "Product created" });
+        window.M.toast({ html: "Produkt dodany" });
       })
       .catch(err => { this.setState({ errors: err.response.data }) });
 
@@ -39,14 +41,14 @@ export default class Users extends Component {
     axios.delete('/api/products', { params: { jwt: localStorage.getItem('jwt'), name: e } })
       .then(res => {
         this.getProducts();
-        window.M.toast({ html: "Product deleted" });
+        window.M.toast({ html: "Produkt usunięty" });
       })
       .catch(err => { this.setState({ errors: err.response.data }) });
   }
   getProducts() {
     axios.get('/api/products', { params: { jwt: localStorage.getItem('jwt') } })
       .then(res => this.setState({ products: res.data }))
-      .catch(err => this.props.history.push('/home'));
+      .catch(err => this.props.history.push('/404'));
   }
   componentDidMount() { this.getProducts(); }
   render() {
@@ -55,47 +57,60 @@ export default class Users extends Component {
         <Navbar />
         <div className="row" >
           <form className="col s12" noValidate onSubmit={this.onSubmit}>
-            <div className="row">
-              <div className="input-field col s3">
-                <input id="name" className={this.state.errors.name === undefined ? '' : 'invalid'} type="text" autoComplete="off"
-                  placeholder="Name"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.onChange} />
-                <span className="helper-text" data-error={this.state.errors.name}></span>
+            <div className="input-field col s3">
+              <input id="name" className={this.state.errors.name === undefined ? '' : 'invalid'} type="text" autoComplete="off"
+                placeholder="Nazwa"
+                name="name"
+                value={this.state.name}
+                onChange={this.onChange} />
+              <span className="helper-text" data-error={this.state.errors.name}></span>
+            </div>
+            <div className="input-field col s3 center">
+              <a
+                className="btn modal-trigger red" href="#modal2">Jednostka - {this.state.unit}
+              </a>
+            </div>
+            <div className="input-field col s3 center">
+              <a
+                className="waves-effect waves-light btn modal-trigger red" href="#modal1">Kategoria - {this.state.category}
+              </a>
+            </div>
+            <div className="input-field col s3">
+              <button
+                className="btn waves-effect waves-light light-green" style={{ width: '100%' }} type="submit" name="action">
+                Dodaj
+						  </button>
+            </div>
+            <div id="modal1" className="modal">
+              <div className="modal-content">
+                <h4 className="center">Kategoria</h4>
+                <div className="collection">
+                  {this.state.categories.map((cat, i) =>
+                    <a key={i} value={cat} className="modal-close collection-item" onClick={() => this.setState({ category: cat })}>{cat}</a>
+                  )}
+                </div>
               </div>
-              <div className="input-field col s3">
-                <input id="unit" className={this.state.errors.unit === undefined ? '' : 'invalid'} type="text" autoComplete="off"
-                  placeholder="Unit"
-                  name="unit"
-                  value={this.state.unit}
-                  onChange={this.onChange} />
-                <span className="helper-text" data-error={this.state.errors.unit}></span>
-              </div>
-              <div className="input-field col s3">
-                <input id="category" className={this.state.errors.category === undefined ? '' : 'invalid'} type="text" autoComplete="off"
-                  placeholder="Category"
-                  name="category"
-                  value={this.state.category}
-                  onChange={this.onChange} />
-                <span className="helper-text" data-error={this.state.errors.category}></span>
-              </div>
-              <div className="input-field col s3">
-                <button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">
-                  Add product
-							</button>
+            </div>
+            <div id="modal2" className="modal">
+              <div className="modal-content">
+                <h4 className="center">Jednostka</h4>
+                <div className="collection">
+                  {this.state.units.map((unit, i) =>
+                    <a key={i} value={unit} className="modal-close collection-item" onClick={() => this.setState({ unit })}>{unit}</a>
+                  )}
+                </div>
               </div>
             </div>
           </form>
         </div>
-
-        <table className="striped highlight">
+        <div class="divider"></div>
+        <table className="striped highlight centered">
           <thead >
             <tr>
-              <th>Name</th>
-              <th>Unit</th>
-              <th>Category</th>
-              <th>Delete</th>
+              <th>Nazwa</th>
+              <th>Jednostka</th>
+              <th>Kategoria</th>
+              <th>Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -105,12 +120,12 @@ export default class Users extends Component {
                 <td>{product.unit}</td>
                 <td>{product.category}</td>
                 <td>
-                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.onDelete(product.name)}>Delete</a>
+                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.onDelete(product.name)}><i className="material-icons">close</i></a>
                 </td>
               </tr>)}
           </tbody>
         </table>
-      </div>
+      </div >
     )
   }
 }

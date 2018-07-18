@@ -8,14 +8,14 @@ module.exports = function validateAddProduct(data) {
   data.unit = !isEmpty(data.unit) ? data.unit : '';
   data.category = !isEmpty(data.category) ? data.category : '';
 
-  if (!Validator.isLength(data.name, { min: 3, max: 30 })) errors.name = 'Name must have 3-30 characters';
-  if (Validator.isEmpty(data.name)) errors.name = 'Name is required';
+  if (!Validator.isLength(data.name, { min: 3, max: 30 })) errors.name = 'Nazwa musi mieć 3-30 znaków';
+  if (Validator.isEmpty(data.name)) errors.name = 'Nazwa nie może być pusta';
 
-  if (!Validator.isLength(data.unit, { min: 1, max: 30 })) errors.unit = 'Unit must have 3-30 characters';
-  if (Validator.isEmpty(data.unit)) errors.unit = 'Unit is required';
+  if (!Validator.isLength(data.unit, { min: 1, max: 30 })) errors.unit = 'Jednostka musi mieć 3-30 znaków';
+  if (Validator.isEmpty(data.unit)) errors.unit = 'Jednostka nie może być pusta';
 
-  if (!Validator.isLength(data.category, { min: 3, max: 30 })) errors.category = 'Category must have 3-30 characters';
-  if (Validator.isEmpty(data.category)) errors.category = 'Category is required';
+  if (!Validator.isLength(data.category, { min: 3, max: 30 })) errors.category = 'Kategoria musi mieć 3-30 znaków';
+  if (Validator.isEmpty(data.category)) errors.category = 'Kategoria nie może być pusta';
 
   return {
     errors,

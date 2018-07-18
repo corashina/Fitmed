@@ -50,13 +50,13 @@ export default class Register extends Component {
                   <div className="input-field col s6">
                     <i className="material-icons prefix">lock</i>
                     <input id="password" className={this.state.errors.password === undefined ? '' : 'invalid'} type="password" autoComplete="off"
-                      placeholder="Password"
+                      placeholder="Hasło"
                       name="password"
                       value={this.state.password}
                       onChange={this.onChange} />
                     <span className="helper-text" data-error={this.state.errors.password}></span>
                   </div>
-                  <button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Submit
+                  <button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Zaloguj się
 									</button>
                 </div>
               </div>

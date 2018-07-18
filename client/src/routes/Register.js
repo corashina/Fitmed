@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 export default class Register extends Component {
 	constructor(props) {
@@ -11,7 +12,7 @@ export default class Register extends Component {
 			password: '',
 			password2: '',
 			birthday: '',
-			sex: '',
+			sex: 'Mężczyzna',
 			phone: '',
 			errors: {}
 		};
@@ -40,6 +41,7 @@ export default class Register extends Component {
 	render() {
 		return (
 			<div>
+				<Navbar />
 				<form className="card-center" noValidate onSubmit={this.onSubmit}>
 					<div className="col s12 m7 register">
 						<div className="card horizontal">
@@ -49,7 +51,7 @@ export default class Register extends Component {
 										<div className="input-field col s6">
 											<i className="material-icons prefix">account_circle</i>
 											<input id="firstname" className={this.state.errors.firstname === undefined ? '' : 'invalid'} type="text" autoComplete="off"
-												placeholder="Firstname"
+												placeholder="Imie"
 												name="firstname"
 												value={this.state.firstname}
 												onChange={this.onChange} />
@@ -57,7 +59,7 @@ export default class Register extends Component {
 										</div>
 										<div className="input-field col s6">
 											<input id="lastname" type="text" autoComplete="off" className={this.state.errors.lastname === undefined ? '' : 'invalid'}
-												placeholder="Lastname"
+												placeholder="Nazwisko"
 												name="lastname"
 												value={this.state.lastname}
 												onChange={this.onChange} />
@@ -76,7 +78,7 @@ export default class Register extends Component {
 									<div className="input-field col s12">
 										<i className="material-icons prefix">lock</i>
 										<input id="password" type="password" autoComplete="off" className={this.state.errors.password === undefined ? '' : 'invalid'}
-											placeholder="Password"
+											placeholder="Hasło"
 											name="password"
 											value={this.state.password}
 											onChange={this.onChange} />
@@ -85,7 +87,7 @@ export default class Register extends Component {
 									<div className="input-field col s12">
 										<i className="material-icons prefix">repeat</i>
 										<input id="password2" type="password" autoComplete="off" className={this.state.errors.password === undefined ? '' : 'invalid'}
-											placeholder="Confirm password"
+											placeholder="Potwierdź hasło"
 											name="password2"
 											value={this.state.password2}
 											onChange={this.onChange} />
@@ -94,7 +96,7 @@ export default class Register extends Component {
 									<div className="input-field col s12">
 										<i className="material-icons prefix">date_range</i>
 										<input id="date" type="date" className={this.state.errors.birthday === undefined ? '' : 'invalid'}
-											placeholder="Birthday"
+											placeholder="Data urodzenia"
 											name="birthday"
 											value={this.state.birthday}
 											onChange={this.onChange} />
@@ -103,7 +105,7 @@ export default class Register extends Component {
 									<div className="input-field col s12">
 										<i className="material-icons prefix">phone_android</i>
 										<input id="phone" type="text" autoComplete="off" className={this.state.errors.phone === undefined ? '' : 'invalid'}
-											placeholder="Phone"
+											placeholder="Telefon"
 											name="phone"
 											value={this.state.phone}
 											onChange={this.onChange} />
@@ -112,18 +114,18 @@ export default class Register extends Component {
 									<div className="row">
 										<label>
 											<div className="input-field col s2">
-												<input defaultChecked name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Male')} />
-												<span>Male</span>
+												<input defaultChecked name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Mężczyzna')} />
+												<span>Mężczyzna</span>
 											</div>
 										</label>
 										<label>
 											<div className="input-field col s2">
-												<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Female')} />
-												<span>Female</span>
+												<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Kobieta')} />
+												<span>Kobieta</span>
 											</div>
 										</label>
 									</div>
-									<button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Submit
+									<button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Zarejestruj się
 									</button>
 								</div>
 							</div>
