@@ -67,7 +67,7 @@ router.post('/login', (req, res) => {
           { id: user.id, user },
           'secret',
           (err, token) => {
-            res.json({
+            res.status(200).json({
               user,
               token
             });
@@ -77,13 +77,6 @@ router.post('/login', (req, res) => {
         errors.password = 'Nieprawidłowe hasło';
         return res.status(400).json(errors);
       }
-    });
-  })
-
-  router.get('/current', (req, res) => {
-    jwt.verify(req.headers.token, 'secret', (err, decoded) => {
-      if (decoded) res.json(decoded)
-      else res.json({ success: false })
     });
   })
 })

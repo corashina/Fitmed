@@ -19,8 +19,6 @@ export default class Register extends Component {
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 	}
-	onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
-	onRadioChange(value) { this.setState({ sex: value }) }
 	onSubmit(e) {
 		e.preventDefault();
 
@@ -38,6 +36,8 @@ export default class Register extends Component {
 			.then(res => { this.props.history.push('/login'); })
 			.catch(err => { this.setState({ errors: err.response.data }) });
 	}
+	onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
+	onRadioChange(value) { this.setState({ sex: value }) }
 	render() {
 		return (
 			<div>

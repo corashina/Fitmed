@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import PropTypes from 'prop-types';
+import { loginUser } from '../actions/authActions'
+import { connect } from 'react-redux';
 
-export default class Register extends Component {
-  constructor(props) {
-    super(props);
+class Login extends Component {
+  constructor() {
+    super();
     this.state = {
       email: '',
       password: '',
@@ -12,6 +13,16 @@ export default class Register extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/panel');
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
   onSubmit(e) {
@@ -22,25 +33,20 @@ export default class Register extends Component {
       password: this.state.password,
     };
 
-    axios.post('/api/users/login', userData)
-      .then(res => {
-        localStorage.setItem('jwt', res.data.token);
-        localStorage.setItem('user', JSON.stringify(jwt_decode(res.data.token).user));
-        this.props.history.push('/home');
-      })
-      .catch(err => { this.setState({ errors: err.response.data }) });
+    this.props.loginUser(userData)
   }
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <form className='card-center' noValidate onSubmit={this.onSubmit}>
-          <div className="col s12 m7 register">
+          <div className="col s12 m7">
             <div className="card horizontal">
               <div className="card-stacked">
                 <div className="card-content">
                   <div className="input-field col s6">
                     <i className="material-icons prefix">email</i>
-                    <input id="email" className={this.state.errors.email === undefined ? '' : 'invalid'} type="text" autoComplete="off"
+                    <input id="email" className={errors.email === undefined ? '' : 'invalid'} type="text" autoComplete="off"
                       placeholder="Email"
                       name="email"
                       value={this.state.email}
@@ -66,4 +72,18 @@ export default class Register extends Component {
       </div>
     )
   }
+
 }
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { loginUser })(Login)
