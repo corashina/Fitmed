@@ -57,9 +57,10 @@ body {
 }
 
 .card-center {
-    width: 50%;
-    margin: auto;
-    margin-top: 5%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 nav>div a {

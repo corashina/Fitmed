@@ -58,7 +58,11 @@ export default class Users extends Component {
         <div className="row" >
           <form className="col s12" noValidate onSubmit={this.onSubmit}>
             <div className="input-field col s3">
-              <input id="name" className={this.state.errors.name === undefined ? '' : 'invalid'} type="text" autoComplete="off"
+              <input
+                id="name"
+                className={this.state.errors.name === undefined ? '' : 'invalid'}
+                type="text"
+                autoComplete="off"
                 placeholder="Nazwa"
                 name="name"
                 value={this.state.name}
@@ -67,17 +71,17 @@ export default class Users extends Component {
             </div>
             <div className="input-field col s3 center">
               <a
-                className="btn modal-trigger red" href="#modal2">Jednostka - {this.state.unit}
+                className="btn modal-trigger" href="#modal2">Jednostka - {this.state.unit}
               </a>
             </div>
             <div className="input-field col s3 center">
               <a
-                className="waves-effect waves-light btn modal-trigger red" href="#modal1">Kategoria - {this.state.category}
+                className="waves-effect waves-light btn modal-trigger" href="#modal1">Kategoria - {this.state.category}
               </a>
             </div>
             <div className="input-field col s3">
               <button
-                className="btn waves-effect waves-light light-green" style={{ width: '100%' }} type="submit" name="action">
+                className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">
                 Dodaj
 						  </button>
             </div>

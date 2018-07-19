@@ -23,9 +23,7 @@ export const loginUser = (userData) => dispatch => {
 export const registerUser = (newUser, history) => dispatch => {
   axios
     .post('/api/users/register', newUser)
-    .then(res => {
-      history.push('/logowanie')
-    })
+    .then(res => { history.push('/logowanie') })
     .catch(err => {
       dispatch({
         type: GET_ERRORS,
@@ -49,4 +47,12 @@ export const getUsers = () => dispatch => {
         payload: err.response.data
       })
     });
+};
+
+export const logoutUser = (history) => dispatch => {
+  localStorage.removeItem('jwt');
+  dispatch({
+    type: SET_CURRENT_USER,
+    payload: {}
+  })
 };

@@ -40,7 +40,7 @@ class Users extends Component {
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>
                 <td>{user.email}</td>
-                <td>{user.birthday}</td>
+                <td>{user.birthday.split('T')[0]}</td>
                 <td>{user.sex}</td>
                 <td>{user.phone}</td>
               </tr>)}

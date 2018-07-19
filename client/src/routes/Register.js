@@ -61,7 +61,11 @@ class Register extends Component {
 									<div className="row">
 										<div className="input-field col s6">
 											<i className="material-icons prefix">account_circle</i>
-											<input id="firstname" className={errors.firstname === undefined ? '' : 'invalid'} type="text" autoComplete="off"
+											<input
+												id="firstname"
+												className={errors.firstname === undefined ? '' : 'invalid'}
+												type="text"
+												autoComplete="off"
 												placeholder="Imie"
 												name="firstname"
 												value={this.state.firstname}
@@ -69,7 +73,11 @@ class Register extends Component {
 											<span className="helper-text" data-error={errors.firstname}></span>
 										</div>
 										<div className="input-field col s6">
-											<input id="lastname" type="text" autoComplete="off" className={this.state.errors.lastname === undefined ? '' : 'invalid'}
+											<input
+												id="lastname"
+												type="text"
+												autoComplete="off"
+												className={this.state.errors.lastname === undefined ? '' : 'invalid'}
 												placeholder="Nazwisko"
 												name="lastname"
 												value={this.state.lastname}
@@ -79,7 +87,11 @@ class Register extends Component {
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">email</i>
-										<input id="email" type="email" autoComplete="off" className={errors.email === undefined ? '' : 'invalid'}
+										<input
+											id="email"
+											type="email"
+											autoComplete="off"
+											className={errors.email === undefined ? '' : 'invalid'}
 											placeholder="Email"
 											name="email"
 											value={this.state.email}
@@ -88,7 +100,11 @@ class Register extends Component {
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">lock</i>
-										<input id="password" type="password" autoComplete="off" className={errors.password === undefined ? '' : 'invalid'}
+										<input
+											id="password"
+											type="password"
+											autoComplete="off"
+											className={errors.password === undefined ? '' : 'invalid'}
 											placeholder="Hasło"
 											name="password"
 											value={this.state.password}
@@ -97,7 +113,11 @@ class Register extends Component {
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">repeat</i>
-										<input id="password2" type="password" autoComplete="off" className={errors.password === undefined ? '' : 'invalid'}
+										<input
+											id="password2"
+											type="password"
+											autoComplete="off"
+											className={errors.password === undefined ? '' : 'invalid'}
 											placeholder="Potwierdź hasło"
 											name="password2"
 											value={this.state.password2}
@@ -106,7 +126,10 @@ class Register extends Component {
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">date_range</i>
-										<input id="date" type="date" className={errors.birthday === undefined ? '' : 'invalid'}
+										<input
+											id="date"
+											type="date"
+											className={errors.birthday === undefined ? '' : 'invalid'}
 											placeholder="Data urodzenia"
 											name="birthday"
 											value={this.state.birthday}
@@ -115,7 +138,11 @@ class Register extends Component {
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">phone_android</i>
-										<input id="phone" type="text" autoComplete="off" className={errors.phone === undefined ? '' : 'invalid'}
+										<input
+											id="phone"
+											type="text"
+											autoComplete="off"
+											className={errors.phone === undefined ? '' : 'invalid'}
 											placeholder="Telefon"
 											name="phone"
 											value={this.state.phone}
@@ -124,13 +151,13 @@ class Register extends Component {
 									</div>
 									<div className="row">
 										<label>
-											<div className="input-field col s2">
+											<div className="input-field col s6">
 												<input defaultChecked name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Mężczyzna')} />
 												<span>Mężczyzna</span>
 											</div>
 										</label>
 										<label>
-											<div className="input-field col s2">
+											<div className="input-field col s6">
 												<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Kobieta')} />
 												<span>Kobieta</span>
 											</div>

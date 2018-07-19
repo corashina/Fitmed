@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const keys = require('../config/keys_dev');
 
 const validateAdmin = require('../validation/admin');
 const validateRegisterInput = require('../validation/register');
@@ -68,7 +69,8 @@ router.post('/login', (req, res) => {
       if (isMatch) {
         jwt.sign(
           { id: user.id, user },
-          'secret',
+          keys.secretOrKey,
+          { expiresIn: 3600 },
           (err, token) => {
             res.status(200).json({
               user,
