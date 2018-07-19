@@ -16,16 +16,16 @@ module.exports = function validateAddRecipe(data) {
   if (!Validator.isLength(data.name, { min: 3, max: 30 })) errors.name = 'Nazwa musi mieć 3-30 znaków';
   if (Validator.isEmpty(data.name)) errors.name = 'Nazwa nie może być pusta';
 
-  if (!Validator.isLength(data.calories, { min: 3, max: 30 })) errors.calories = 'Kalorie muszą mieć 3-30 znaków';
+  if (!Validator.isInt(data.calories, { max: 1000 })) errors.calories = 'Kalorie muszą mieć 0-10 znaków';
   if (Validator.isEmpty(data.calories)) errors.calories = 'Kalorie nie mogą być puste';
 
-  if (!Validator.isLength(data.protein, { min: 3, max: 30 })) errors.protein = 'Białko musi mieć 3-30 znaków';
+  if (!Validator.isInt(data.protein, { max: 1000 })) errors.protein = 'Białko musi mieć 0-10 znaków';
   if (Validator.isEmpty(data.protein)) errors.protein = 'Białko nie może być puste';
 
-  if (!Validator.isLength(data.fat, { min: 3, max: 30 })) errors.fat = 'Tłuszcz musi mieć 3-30 znaków';
+  if (!Validator.isInt(data.fat, { max: 1000 })) errors.fat = 'Tłuszcz musi mieć 0-10 znaków';
   if (Validator.isEmpty(data.fat)) errors.fat = 'Tłuszcz nie może być pusty';
 
-  if (!Validator.isLength(data.carbon, { min: 3, max: 30 })) errors.carbon = 'Węglowodany muszą mieć 3-30 znaków';
+  if (!Validator.isInt(data.carbon, { max: 1000 })) errors.carbon = 'Węglowodany muszą mieć 0-10 znaków';
   if (Validator.isEmpty(data.carbon)) errors.carbon = 'Węglowodany nie mogą być puste';
 
   if (!Validator.isLength(data.execution, { min: 10, max: 120 })) errors.execution = 'Przepis musi mieć 10-120 znaków';

@@ -26,15 +26,6 @@ export default class Navbar extends Component {
                   <li><a href="/training"><i className="material-icons right">fitness_center</i>Training</a></li>
                 </div>
               }
-              {this.state.isLoggedIn && JSON.parse(localStorage.getItem('user')).role === 'Admin' &&
-                < div >
-                  <li><a href="/users"><i className="material-icons right">format_list_bulleted</i>Users</a></li>
-                  <li><a href="/diets"><i className="material-icons right">local_dining</i>Diets</a></li>
-                  <li><a href="/recipes"><i className="material-icons right">event_note</i>Recipes</a></li>
-                  <li><a href="/products "><i className="material-icons right">trending_up</i>Products</a></li>
-                  <li><a href="/trainings"><i className="material-icons right">fitness_center</i>Trainings</a></li>
-                </div>
-              }
             </ul>
           </div>
         </nav>

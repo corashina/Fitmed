@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-import axios from 'axios';
+import React, { Component } from 'react';
+import { registerUser } from '../actions/authActions'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 
-export default class Register extends Component {
+class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,6 +21,15 @@ export default class Register extends Component {
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 	}
+	componentDidMount() {
+		if (this.props.auth.isAuthenticated) this.props.history.push('/panel');
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.errors) {
+			this.setState({ errors: nextProps.errors });
+		}
+	}
 	onSubmit(e) {
 		e.preventDefault();
 
@@ -32,13 +43,13 @@ export default class Register extends Component {
 			sex: this.state.sex,
 			phone: this.state.phone
 		};
-		axios.post('/api/users/register', newUser)
-			.then(res => { this.props.history.push('/login'); })
-			.catch(err => { this.setState({ errors: err.response.data }) });
+
+		this.props.registerUser(newUser, this.props.history);
 	}
 	onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
 	onRadioChange(value) { this.setState({ sex: value }) }
 	render() {
+		const { errors } = this.state;
 		return (
 			<div>
 				<Navbar />
@@ -50,12 +61,12 @@ export default class Register extends Component {
 									<div className="row">
 										<div className="input-field col s6">
 											<i className="material-icons prefix">account_circle</i>
-											<input id="firstname" className={this.state.errors.firstname === undefined ? '' : 'invalid'} type="text" autoComplete="off"
+											<input id="firstname" className={errors.firstname === undefined ? '' : 'invalid'} type="text" autoComplete="off"
 												placeholder="Imie"
 												name="firstname"
 												value={this.state.firstname}
 												onChange={this.onChange} />
-											<span className="helper-text" data-error={this.state.errors.firstname}></span>
+											<span className="helper-text" data-error={errors.firstname}></span>
 										</div>
 										<div className="input-field col s6">
 											<input id="lastname" type="text" autoComplete="off" className={this.state.errors.lastname === undefined ? '' : 'invalid'}
@@ -63,53 +74,53 @@ export default class Register extends Component {
 												name="lastname"
 												value={this.state.lastname}
 												onChange={this.onChange} />
-											<span className="helper-text" data-error={this.state.errors.lastname}></span>
+											<span className="helper-text" data-error={errors.lastname}></span>
 										</div>
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">email</i>
-										<input id="email" type="email" autoComplete="off" className={this.state.errors.email === undefined ? '' : 'invalid'}
+										<input id="email" type="email" autoComplete="off" className={errors.email === undefined ? '' : 'invalid'}
 											placeholder="Email"
 											name="email"
 											value={this.state.email}
 											onChange={this.onChange} />
-										<span className="helper-text" data-error={this.state.errors.email}></span>
+										<span className="helper-text" data-error={errors.email}></span>
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">lock</i>
-										<input id="password" type="password" autoComplete="off" className={this.state.errors.password === undefined ? '' : 'invalid'}
+										<input id="password" type="password" autoComplete="off" className={errors.password === undefined ? '' : 'invalid'}
 											placeholder="Hasło"
 											name="password"
 											value={this.state.password}
 											onChange={this.onChange} />
-										<span className="helper-text" data-error={this.state.errors.password}></span>
+										<span className="helper-text" data-error={errors.password}></span>
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">repeat</i>
-										<input id="password2" type="password" autoComplete="off" className={this.state.errors.password === undefined ? '' : 'invalid'}
+										<input id="password2" type="password" autoComplete="off" className={errors.password === undefined ? '' : 'invalid'}
 											placeholder="Potwierdź hasło"
 											name="password2"
 											value={this.state.password2}
 											onChange={this.onChange} />
-										<span className="helper-text" data-error={this.state.errors.password2}></span>
+										<span className="helper-text" data-error={errors.password2}></span>
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">date_range</i>
-										<input id="date" type="date" className={this.state.errors.birthday === undefined ? '' : 'invalid'}
+										<input id="date" type="date" className={errors.birthday === undefined ? '' : 'invalid'}
 											placeholder="Data urodzenia"
 											name="birthday"
 											value={this.state.birthday}
 											onChange={this.onChange} />
-										<span className="helper-text" data-error={this.state.errors.birthday}></span>
+										<span className="helper-text" data-error={errors.birthday}></span>
 									</div>
 									<div className="input-field col s12">
 										<i className="material-icons prefix">phone_android</i>
-										<input id="phone" type="text" autoComplete="off" className={this.state.errors.phone === undefined ? '' : 'invalid'}
+										<input id="phone" type="text" autoComplete="off" className={errors.phone === undefined ? '' : 'invalid'}
 											placeholder="Telefon"
 											name="phone"
 											value={this.state.phone}
 											onChange={this.onChange} />
-										<span className="helper-text" data-error={this.state.errors.phone}></span>
+										<span className="helper-text" data-error={errors.phone}></span>
 									</div>
 									<div className="row">
 										<label>
@@ -136,3 +147,16 @@ export default class Register extends Component {
 		)
 	}
 }
+
+Register.propTypes = {
+	registerUser: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+	auth: state.auth,
+	errors: state.errors,
+});
+
+export default connect(mapStateToProps, { registerUser })(Register)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Navbar from '../components/Navbar';
+import NavbarAdmin from '../components/NavbarAdmin';
 import axios from 'axios';
 
 export default class Users extends Component {
@@ -77,7 +77,7 @@ export default class Users extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <NavbarAdmin />
         <div className="row" >
           <form className="col s12" noValidate onSubmit={this.onSubmit}>
             <div className="row">

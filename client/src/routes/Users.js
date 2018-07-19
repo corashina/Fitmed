@@ -1,23 +1,27 @@
 import React, { Component } from 'react'
-import Navbar from '../components/Navbar';
-import axios from 'axios';
+import NavbarAdmin from '../components/NavbarAdmin';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getUsers } from '../actions/authActions'
 
-export default class Users extends Component {
-  constructor(props) {
-    super(props);
+class Users extends Component {
+  constructor() {
+    super();
     this.state = {
       users: []
     }
   }
   componentDidMount() {
-    axios.get('/api/users', { params: { jwt: localStorage.getItem('jwt') } })
-      .then(res => this.setState({ users: res.data }))
-      .catch(err => this.props.history.push('/home'));
+    this.props.getUsers();
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors.permission) this.props.history.push('/404')
+    this.setState({ users: nextProps.auth.users })
   }
   render() {
     return (
       <div >
-        <Navbar />
+        <NavbarAdmin />
         <table className="striped highlight centered">
           <thead >
             <tr>
@@ -46,3 +50,17 @@ export default class Users extends Component {
     )
   }
 }
+
+Users.propTypes = {
+  getUsers: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { getUsers })(Users)

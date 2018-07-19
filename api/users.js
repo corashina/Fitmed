@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const validateAdmin = require('../validation/admin');
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 
@@ -18,6 +19,7 @@ router.post('/register', (req, res) => {
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       errors.email = 'Podany adres email już istnieje';
+
       return res.status(400).json(errors);
     } else {
 
@@ -38,10 +40,11 @@ router.post('/register', (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json(user))
+            .then(user => res.status(200).json(user))
             .catch(err => console.log(err));
         });
       });
+
     }
   });
 });
@@ -82,19 +85,16 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  jwt.verify(req.query.jwt, 'secret', (err, decoded) => {
-    if (decoded.user.role === 'Admin') {
-      User.find().then(users => {
-        if (users) {
-          users.sort((a, b) => a.firstname - b.lastname).reverse();
-          return res.status(200).json(users);
-        } else {
-          return res.status(400).json({ error: 'Brak użytkowników' })
-        }
-      })
-    } else res.status(400).json({ permission: 'Brak autoryzacji' })
-  });
+  if (validateAdmin(req.query.jwt)) {
+    User.find().then(users => {
+      if (users) {
+        users.sort((a, b) => a.firstname - b.lastname).reverse();
+        return res.status(200).json(users);
+      } else {
+        return res.status(400).json({ error: 'Brak użytkowników' })
+      }
+    })
+  } else res.status(400).json({ permission: 'Brak autoryzacji' })
 })
-
 
 module.exports = router;

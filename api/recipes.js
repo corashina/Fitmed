@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
+const validateAdmin = require('../validation/admin');
 const validateAddRecipe = require('../validation/recipe');
 
 const Recipe = require('../models/Recipe');
@@ -9,18 +10,16 @@ const Recipe = require('../models/Recipe');
 router.get('/test', (req, res) => res.json({ message: 'Recipe api works' }));
 
 router.get('/', (req, res) => {
-  jwt.verify(req.query.jwt, 'secret', (err, decoded) => {
-    if (decoded.user.role === 'Admin') {
-      Recipe.find().then(recipe => {
-        if (recipe) {
-          recipe.sort((a, b) => a.name - b.name).reverse();
-          return res.status(200).json(recipe);
-        } else {
-          return res.status(400).json({ error: 'No products' })
-        }
-      })
-    } else res.status(400).json({ permission: 'User not authorized' })
-  });
+  if (validateAdmin(req.query.jwt)) {
+    Recipe.find().then(recipe => {
+      if (recipe) {
+        recipe.sort((a, b) => a.name - b.name).reverse();
+        return res.status(200).json(recipe);
+      } else {
+        return res.status(400).json({ error: 'No products' })
+      }
+    })
+  } else res.status(400).json({ permission: 'User not authorized' })
 })
 
 router.post('/', (req, res) => {
@@ -54,17 +53,16 @@ router.post('/', (req, res) => {
 })
 
 router.delete('/', (req, res) => {
-  jwt.verify(req.query.jwt, 'secret', (err, decoded) => {
-    if (decoded.user.role === 'Admin') {
-      Recipe.findOne({ name: req.query.name }).then(recipe => {
-        if (!recipe) {
-          return res.status(400).json({ error: 'Recipe doesnt exist' });
-        } else {
-          recipe.remove().then(() => res.json({ success: true }))
-        }
-      });
-    } else res.status(400).json({ permission: 'User not authorized' })
-  });
+  if (validateAdmin(req.query.jwt)) {
+    Recipe.findOne({ name: req.query.name }).then(recipe => {
+      if (!recipe) {
+        return res.status(400).json({ error: 'Recipe doesnt exist' });
+      } else {
+        recipe.remove().then(() => res.json({ success: true }))
+      }
+    });
+  } else res.status(400).json({ permission: 'User not authorized' })
+
 })
 
 module.exports = router;
