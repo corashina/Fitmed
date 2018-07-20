@@ -53,7 +53,7 @@ router.delete('/', (req, res) => {
       if (!product) {
         return res.status(400).json({ error: 'Product doesnt exist' });
       } else {
-        product.remove().then(() => res.json({ success: true }))
+        product.remove().then(() => res.json(product))
       }
     });
   } else res.status(400).json({ permission: 'User not authorized' })

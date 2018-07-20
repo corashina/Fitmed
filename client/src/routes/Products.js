@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import NavbarAdmin from '../components/NavbarAdmin';
-import axios from 'axios';
+import { getProducts, addProduct, deleteProduct } from '../actions/productActions'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class Users extends Component {
+class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +18,6 @@ export default class Users extends Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.onDelete = this.onDelete.bind(this);
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
   onSubmit(e) {
@@ -28,29 +29,13 @@ export default class Users extends Component {
       category: this.state.category
     };
 
-    axios.post('/api/products', newProduct)
-      .then(res => {
-        this.setState({ errors: {}, name: '' })
-        this.getProducts();
-        window.M.toast({ html: "Produkt dodany" });
-      })
-      .catch(err => { this.setState({ errors: err.response.data }) });
-
+    this.props.addProduct(newProduct);
   }
-  onDelete(e) {
-    axios.delete('/api/products', { params: { jwt: localStorage.getItem('jwt'), name: e } })
-      .then(res => {
-        this.getProducts();
-        window.M.toast({ html: "Produkt usunięty" });
-      })
-      .catch(err => { this.setState({ errors: err.response.data }) });
+  componentWillReceiveProps(nextProps) {
+    if (Array.isArray(nextProps.data.products)) this.setState({ products: nextProps.data.products });
+    if (nextProps.errors) this.setState({ errors: nextProps.errors });
   }
-  getProducts() {
-    axios.get('/api/products', { params: { jwt: localStorage.getItem('jwt') } })
-      .then(res => this.setState({ products: res.data }))
-      .catch(err => this.props.history.push('/404'));
-  }
-  componentDidMount() { this.getProducts(); }
+  componentDidMount() { this.props.getProducts(); }
   render() {
     return (
       <div>
@@ -107,7 +92,7 @@ export default class Users extends Component {
             </div>
           </form>
         </div>
-        <div class="divider"></div>
+        <div className="divider"></div>
         <table className="striped highlight centered">
           <thead >
             <tr>
@@ -124,7 +109,7 @@ export default class Users extends Component {
                 <td>{product.unit}</td>
                 <td>{product.category}</td>
                 <td>
-                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.onDelete(product.name)}><i className="material-icons">close</i></a>
+                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteProduct(product.name)}><i className="material-icons">close</i></a>
                 </td>
               </tr>)}
           </tbody>
@@ -133,3 +118,19 @@ export default class Users extends Component {
     )
   }
 }
+
+Products.propTypes = {
+  getProducts: PropTypes.func.isRequired,
+  addProduct: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+  data: state.data
+});
+
+export default connect(mapStateToProps, { getProducts, addProduct, deleteProduct })(Products)
