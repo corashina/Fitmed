@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
 
       newRecipe
         .save()
-        .then(recipe => res.json(recipe))
+        .then(recipe => res.status(200).json(errors))
         .catch(err => res.status(404).json(errors));
     }
   });
@@ -56,12 +56,12 @@ router.delete('/', (req, res) => {
   if (validateAdmin(req.query.jwt)) {
     Recipe.findOne({ name: req.query.name }).then(recipe => {
       if (!recipe) {
-        return res.status(400).json({ error: 'Recipe doesnt exist' });
+        return res.status(400).json({ errors: "Przepis nie istnieje" });
       } else {
-        recipe.remove().then(() => res.json({ success: true }))
+        recipe.remove().then(() => res.json(recipe))
       }
     });
-  } else res.status(400).json({ permission: 'User not authorized' })
+  } else res.status(400).json({ errors: "Brak autoryzacji" })
 
 })
 

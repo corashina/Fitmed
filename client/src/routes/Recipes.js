@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import NavbarAdmin from '../components/NavbarAdmin';
-import axios from 'axios';
+import { getRecipes, addRecipe, deleteRecipe } from '../actions/recipeActions';
+import { getProducts } from '../actions/productActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class Users extends Component {
+class Recipes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +23,6 @@ export default class Users extends Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.onDelete = this.onDelete.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
@@ -40,36 +42,15 @@ export default class Users extends Component {
       errors: {}
     };
 
-    axios.post('/api/recipes', newRecipe)
-      .then(res => {
-        this.setState({ errors: {}, name: '', calories: '', protein: '', fat: '', carbon: '', ingredients: '', execution: '', exclude: '' })
-        this.getRecipes();
-        window.M.toast({ html: "Recipe created" });
-      })
-      .catch(err => { this.setState({ errors: err.response.data }) });
-
+    this.props.addRecipe(newRecipe);
   }
-  onDelete(e) {
-    axios.delete('/api/recipes', { params: { jwt: localStorage.getItem('jwt'), name: e } })
-      .then(res => {
-        this.getRecipes();
-        window.M.toast({ html: "Recipe deleted" });
-      })
-      .catch(err => { this.setState({ errors: err.response.data }) });
-  }
-  getRecipes() {
-    axios.get('/api/recipes', { params: { jwt: localStorage.getItem('jwt') } })
-      .then(res => this.setState({ recipes: res.data }))
-      .catch(err => this.props.history.push('/home'));
-  }
-  getProducts() {
-    axios.get('/api/products', { params: { jwt: localStorage.getItem('jwt') } })
-      .then(res => this.setState({ products: res.data }))
-      .catch(err => this.props.history.push('/home'));
+  componentWillReceiveProps(nextProps) {
+    if (Array.isArray(nextProps.recipes.recipes)) this.setState({ recipes: nextProps.recipes.recipes })
+    if (Array.isArray(nextProps.data.products)) this.setState({ products: nextProps.data.products })
   }
   componentDidMount() {
-    this.getRecipes();
-    this.getProducts();
+    this.props.getRecipes();
+    this.props.getProducts();
   }
   addIngredient(e) {
     this.setState({ ingredients: this.state.ingredients.concat(e) })
@@ -210,7 +191,7 @@ export default class Users extends Component {
                 <td>{recipe.execution}</td>
                 <td>{recipe.exclude}</td>
                 <td>
-                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.onDelete(recipe.name)}><i class="material-icons">close</i></a>
+                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteRecipe(recipe.name)}><i className="material-icons">close</i></a>
                 </td>
               </tr>)}
           </tbody>
@@ -219,3 +200,21 @@ export default class Users extends Component {
     )
   }
 }
+
+Recipes.propTypes = {
+  getRecipes: PropTypes.func.isRequired,
+  addRecipe: PropTypes.func.isRequired,
+  deleteRecipe: PropTypes.func.isRequired,
+  getProducts: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+  data: state.data,
+  recipes: state.recipes
+});
+
+export default connect(mapStateToProps, { getRecipes, addRecipe, deleteRecipe, getProducts })(Recipes)
