@@ -12,7 +12,7 @@ export default function (state = initialState, action) {
     case POST_RECIPE:
       return {
         ...state,
-        recipes: [action.payload, ...state.products]
+        recipes: [action.payload, ...state.recipes]
       }
     case DELETE_RECIPE:
       return {

@@ -29,8 +29,8 @@ class Navbar extends Component {
                   <li><a href="/panel"><i className="material-icons left">format_list_bulleted</i>Panel</a></li>
                   <li><a href="/dieta"><i className="material-icons left">local_dining</i>Dieta</a></li>
                   <li><a href="/przepisy"><i className="material-icons left">event_note</i>Przepisy</a></li>
-                  <li><a href="/supplementy "><i className="material-icons left">trending_up</i>Supplement</a></li>
-                  <li><a href="/trening"><i className="material-icons left">fitness_center</i>Training</a></li>
+                  <li><a href="/suplementacja "><i className="material-icons left">trending_up</i>Suplementacja</a></li>
+                  <li><a href="/trening"><i className="material-icons left">fitness_center</i>Plan treningowy</a></li>
                   <li onClick={this.onLogout}><a href="/logowanie"><i className="material-icons right">power_settings_new</i></a></li>
                 </div>
               }

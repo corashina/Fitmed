@@ -23,7 +23,7 @@ const RecipeSchema = new Schema({
     required: true
   },
   ingredients: {
-    type: [String],
+    type: [],
     required: true
   },
   execution: {

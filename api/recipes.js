@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
 
       newRecipe
         .save()
-        .then(recipe => res.status(200).json(errors))
+        .then(recipe => res.status(200).json(recipe))
         .catch(err => res.status(404).json(errors));
     }
   });

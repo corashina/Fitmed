@@ -28,16 +28,20 @@ export const addRecipe = (newProduct) => dispatch => {
       })
       window.M.toast({ html: "Przepis dodany" });
     })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
+    .catch(err => {
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      }
+    }
     );
 };
 
 export const deleteRecipe = (productData) => dispatch => {
-  axios.delete('/api/recipes', { params: { jwt: localStorage.getItem('jwt'), name: productData } })
+  axios
+    .delete('/api/recipes', { params: { jwt: localStorage.getItem('jwt'), name: productData } })
     .then(res => {
       dispatch({
         type: DELETE_RECIPE,

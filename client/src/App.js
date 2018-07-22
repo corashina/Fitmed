@@ -11,6 +11,7 @@ import Products from './routes/Products';
 import Recipes from './routes/Recipes';
 import NotFound from './routes/NotFound';
 import Admin from './routes/Admin';
+import Supplementation from './routes/Supplementation';
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
               <Route path='/rejestracja' exact component={Register} />
               <Route path='/logowanie' exact component={Login} />
               <Route path='/panel' exact component={Panel} />
+              <Route path='/suplementacja' exact component={Supplementation} />
               <Route path='/admin/panel' exact component={Admin} />
               <Route path='/admin/uzytkownicy' exact component={Users} />
               <Route path='/admin/produkty' exact component={Products} />

@@ -47,6 +47,7 @@ class Recipes extends Component {
   componentWillReceiveProps(nextProps) {
     if (Array.isArray(nextProps.recipes.recipes)) this.setState({ recipes: nextProps.recipes.recipes })
     if (Array.isArray(nextProps.data.products)) this.setState({ products: nextProps.data.products })
+    if (nextProps.errors) this.setState({ errors: nextProps.errors })
   }
   componentDidMount() {
     this.props.getRecipes();
@@ -187,7 +188,7 @@ class Recipes extends Component {
                 <td>{recipe.protein}</td>
                 <td>{recipe.fat}</td>
                 <td>{recipe.carbon}</td>
-                <td>{recipe.ingredients}</td>
+                <td>{recipe.ingredients.map((e, i) => <span key={i}>{e.name} </span>)}</td>
                 <td>{recipe.execution}</td>
                 <td>{recipe.exclude}</td>
                 <td>
