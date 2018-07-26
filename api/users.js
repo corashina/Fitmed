@@ -7,6 +7,7 @@ const keys = require('../config/keys_dev');
 const validateAdmin = require('../validation/admin');
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
+const validateSupplementationInput = require('../validation/supplementation');
 
 const User = require('../models/User');
 
@@ -86,6 +87,43 @@ router.post('/login', (req, res) => {
   })
 })
 
+router.post('/supplementation', (req, res) => {
+  const { errors, isValid } = validateSupplementationInput(req.body);
+
+  if (!isValid) return res.status(400).json(errors);
+
+  const newSupplementation = {
+    height: req.body.height,
+    weight: req.body.weight,
+    meals: req.body.meals,
+    selectedAim: req.body.selectedAim,
+    selectedAllergies: req.body.selectedAllergies,
+    selectedIllnesses: req.body.selectedIllnesses,
+    selectedAfflictions: req.body.selectedAfflictions,
+  };
+
+  jwt.verify(req.body.auth, keys.secretOrKey, (err, decoded) => {
+    if (decoded) {
+      User.findOne({ email: req.body.email }).then(user => {
+        if (user) {
+
+          User.findByIdAndUpdate(
+            { supplementation: newSupplementation }
+          ).then(user => res.json(user))
+
+        } else {
+          errors.email = 'Podany adres email nie istnieje';
+          return res.status(400).json(errors);
+        }
+      });
+    } else {
+      errors.permission = "Brak autoryzacji"
+      return res.status(400).json(errors);
+    }
+  });
+
+});
+
 router.get('/', (req, res) => {
   if (validateAdmin(req.query.jwt)) {
     User.find().then(users => {
@@ -98,5 +136,7 @@ router.get('/', (req, res) => {
     })
   } else res.status(400).json({ permission: 'Brak autoryzacji' })
 })
+
+
 
 module.exports = router;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import NavbarAdmin from '../components/NavbarAdmin';
-import { getRecipes, addRecipe, deleteRecipe } from '../actions/recipeActions';
-import { getProducts } from '../actions/productActions';
+import NavbarAdmin from '../../components/NavbarAdmin';
+import { getRecipes, addRecipe, deleteRecipe } from '../../actions/recipeActions';
+import { getProducts } from '../../actions/productActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 

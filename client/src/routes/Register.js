@@ -18,7 +18,6 @@ class Register extends Component {
 			sex: 'Mężczyzna',
 			phone: '',
 			errors: {},
-			chosenPlan: false,
 			planLength: 1,
 		};
 		this.onChange = this.onChange.bind(this);
@@ -58,8 +57,8 @@ class Register extends Component {
 		return (
 			<div>
 				<Navbar />
-				{this.state.chosenPlan === false &&
-					<div className="row" style={{ padding: '2%' }}>
+				<form noValidate onSubmit={this.onSubmit} style={{ padding: '2%' }}>
+					<div className="row" >
 						<div className="col s4 ">
 							<div className="card">
 								<div className="card-image">
@@ -112,17 +111,11 @@ class Register extends Component {
 									<span>6 Miesięcy</span>
 								</div>
 							</label>
-							<div className="input-field col s12 center">
-								<a className="btn" onClick={(e) => this.proceed()}>
-									Wybierz plan
-							</a>
-							</div>
 						</div>
 					</div>
-				}
-				{this.state.chosenPlan === true &&
-					<form className="card-center" noValidate onSubmit={this.onSubmit}>
-						<div className="col s12 m7 register">
+					<div className="row">
+						<div className="col s3"></div>
+						<div className="col s6 center">
 							<div className="card horizontal">
 								<div className="card-stacked">
 									<div className="card-content">
@@ -232,14 +225,13 @@ class Register extends Component {
 											</label>
 										</div>
 										<button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Zarejestruj się
-					</button>
+									</button>
 									</div>
 								</div>
 							</div>
 						</div>
-					</form>
-				}
-
+					</div>
+				</form>
 			</div >
 		)
 	}

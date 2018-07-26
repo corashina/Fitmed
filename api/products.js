@@ -10,16 +10,14 @@ const Product = require('../models/Product');
 router.get('/test', (req, res) => res.json({ message: 'Product api works' }));
 
 router.get('/', (req, res) => {
-  if (validateAdmin(req.query.jwt)) {
-    Product.find().then(product => {
-      if (product) {
-        product.sort((a, b) => a.name - b.name).reverse();
-        return res.status(200).json(product);
-      } else {
-        return res.status(400).json({ error: 'No products' })
-      }
-    })
-  } else res.status(400).json({ permission: 'User not authorized' })
+  Product.find().then(product => {
+    if (product) {
+      product.sort((a, b) => a.name - b.name).reverse();
+      return res.status(200).json(product);
+    } else {
+      return res.status(400).json({ error: 'No products' })
+    }
+  })
 })
 
 router.post('/', (req, res) => {

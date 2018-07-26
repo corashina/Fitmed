@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import NavbarAdmin from '../components/NavbarAdmin';
-import { getProducts, addProduct, deleteProduct } from '../actions/productActions'
+import NavbarAdmin from '../../components/NavbarAdmin';
+import { getProducts, addProduct, deleteProduct } from '../../actions/productActions'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,7 @@ class Products extends Component {
       unit: 'Gram',
       category: 'Warzywa',
       units: ['Gram', 'Kilogram', 'Szczypta'],
-      categories: ['Warzywa', 'Owoce', 'Mieso', 'Nabiał', 'Pieczywo', 'Ryby', 'Napój'],
+      categories: ['Warzywa', 'Orzechy', 'Owoce', 'Mieso', 'Nabiał', 'Pieczywo', 'Ryby', 'Napój'],
       products: [],
       errors: {}
     }
@@ -30,6 +30,7 @@ class Products extends Component {
     };
 
     this.props.addProduct(newProduct);
+    this.setState({ name: '' });
   }
   componentWillReceiveProps(nextProps) {
     if (Array.isArray(nextProps.data.products)) this.setState({ products: nextProps.data.products });

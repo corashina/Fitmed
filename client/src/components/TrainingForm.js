@@ -1,21 +1,76 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export default class SupplementationForm extends Component {
+export default class TrainingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      aim: ['Redukcja tkanki tłuszczowej', 'Zyskanie masy', 'Utrzymanie masy ciała'],
-      allergies: ['Gluten', 'Jaja', 'Ryby', 'Orzechy', 'Produkty mleczne', 'Soja', 'Seler', 'Gorczyca', 'Łubin', 'Mięczaki', 'Orzeszki ziemne', 'Inne...'],
-      illnesses: ['Cukrzyca typu 1', 'Cukrzyca typu 2', 'Hashimoto', 'Graves-Basedow', 'Reumatoidalne zapalenie stawów', 'Choroba Leśniewskiego-Crohna', 'Wrzodziejące zapalenie jelita grubego', 'Toczeń', 'Stwardnienie rozsiane', 'Niedoczynność tarczycy', 'Zespół jelita drażliwego', 'Inne'],
-      afflictions: ['Biegunki', 'Wzdęcia', 'Bóle głowy', 'Przewlekła senność', 'Inne'],
+      allergies:
+        [
+          'Gluten',
+          'Jaja',
+          'Ryby',
+          'Orzechy',
+          'Produkty mleczne',
+          'Soja',
+          'Seler',
+          'Gorczyca',
+          'Łubin',
+          'Mięczaki',
+          'Orzeszki ziemne',
+          'Inne...'
+        ],
+      experience:
+        [
+          'Dopiero zaczynam',
+          '6-12 miesięcy',
+          '1-2 lata',
+          '2-4 lata',
+          '4-6 lat',
+          '6-8 lat',
+          'Więcej niż osiem lat'
+        ],
+      illnesses:
+        [
+          'Cukrzyca typu 1',
+          'Cukrzyca typu 2',
+          'Hashimoto',
+          'Graves-Basedow',
+          'Reumatoidalne zapalenie stawów',
+          'Choroba Leśniewskiego-Crohna',
+          'Wrzodziejące zapalenie jelita grubego',
+          'Toczeń',
+          'Stwardnienie rozsiane',
+          'Niedoczynność tarczycy',
+          'Zespół jelita drażliwego',
+          'Inne'
+        ],
+      afflictions:
+        [
+          'Biegunki',
+          'Wzdęcia',
+          'Bóle głowy',
+          'Przewlekła senność',
+          'Inne'
+        ],
+      frequencyQuesion:
+        [
+          'Nie jem mięsa',
+          'Bardzo rzadko (raz na dwa tygodnie)',
+          'Rzadko (raz na tydzien)',
+          'Umiarkowanie (2-3 razy w tygodniu)',
+          'Często (4-6 razy w tygodniu)',
+          'Bardzo często (codziennie)'
+        ],
       height: '',
       weight: '',
-      meals: '',
+      trainings: '',
       selectedAim: 'Redukcja tkanki tłuszczowej',
       selectedAllergies: [],
       selectedIllnesses: [],
       selectedAfflictions: [],
+      selectedMeatQuestion: 'Nie jem mięsa',
+      products: [],
       errors: {}
     }
     this.onChange = this.onChange.bind(this);
@@ -51,6 +106,11 @@ export default class SupplementationForm extends Component {
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
   onDelete(e, allergy) { this.setState({ [e]: this.state[e].filter(el => allergy !== el) }) }
+  componentDidMount() {
+    axios.get('/api/products')
+      .then(res => { this.setState({ products: res.data }) })
+      .catch(err => this.setState({ errors: err.response.data }))
+  }
   render() {
     const { errors } = this.state
     return (
@@ -87,23 +147,23 @@ export default class SupplementationForm extends Component {
                     </div>
                     <div className="input-field col s4">
                       <input
-                        id="meals"
+                        id="trainings"
                         type="text"
                         autoComplete="off"
-                        className={errors.meals === undefined ? '' : 'invalid'}
-                        placeholder="Ilość posiłków dziennie"
-                        name="meals"
-                        value={this.state.meals}
+                        className={errors.trainings === undefined ? '' : 'invalid'}
+                        placeholder="Ilość treningów tygodniowo"
+                        name="trainings"
+                        value={this.state.trainings}
                         onChange={this.onChange} />
-                      <span className="helper-text" data-error={errors.meals}></span>
+                      <span className="helper-text" data-error={errors.trainings}></span>
                     </div>
                   </div>
                   <div className="row">
                     <div className="input-field col s12">
                       <select>
-                        {this.state.aim.map((e, i) => <option key={i} value={i}>{e}</option>)}
+                        {this.state.experience.map((e, i) => <option key={i} value={i}>{e}</option>)}
                       </select>
-                      <label>Jaki jest twój cel?</label>
+                      <label>Staż</label>
                     </div>
                   </div>
                   <div className="row">
@@ -149,14 +209,24 @@ export default class SupplementationForm extends Component {
                   </div>
                   <div className="row">
                     <div className="input-field col s12">
-                      <button
-                        className="btn waves-effect waves-light"
-                        style={{ width: '100%' }}
-                        type="submit"
-                        name="action">
-                        Potwierdź
-					          </button>
+                      <a className='dropdown-trigger btn' data-target='dropdown1'>Jakiego nie lubisz?</a>
+                      <ul id='dropdown1' className='dropdown-content'>
+                        {this.state.products.filter(e => e.category === 'Mieso').map((el, i) =>
+                          <li key={i}><a>{el.name}</a></li>
+                        )}
+                      </ul>
                     </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <button
+                      className="btn waves-effect waves-light"
+                      style={{ width: '100%' }}
+                      type="submit"
+                      name="action">
+                      Potwierdź
+					          </button>
                   </div>
                 </div>
               </div>
