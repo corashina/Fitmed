@@ -15,12 +15,14 @@ import NotFound from './routes/NotFound';
 import Panel from './routes/client/Panel';
 import RecipeList from './routes/client/RecipeList';
 import Supplementation from './routes/client/Supplementation';
-import Training from './routes/client/Training';
+import Diet from './routes/client/Diet';
+import CreateDiet from './routes/client/CreateDiet';
 
 import Users from './routes/admin/Users';
 import Products from './routes/admin/Products';
 import Recipes from './routes/admin/Recipes';
 import Admin from './routes/admin/Admin';
+import Navbar from './components/Navbar';
 
 if (localStorage.jwt) {
   setAuthToken(localStorage.jwt);
@@ -39,6 +41,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <div>
+            <Navbar />
             <Switch>
               <Route path='/' exact component={Landing} />
               <Route path='/rejestracja' exact component={Register} />
@@ -51,7 +54,8 @@ class App extends Component {
               <Route path='/admin/produkty' exact component={Products} />
               <Route path='/admin/przepisy' exact component={Recipes} />
               <Switch>
-                <PrivateRoute path='/trening' exact component={Training} />
+                <PrivateRoute path='/dieta' exact component={Diet} />
+                <PrivateRoute path='/dieta/stworz' exact component={CreateDiet} />
               </Switch>
               <Route path='/404' exact component={NotFound} />
               <Redirect to="/404" />

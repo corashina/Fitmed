@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import NavbarAdmin from '../../components/NavbarAdmin';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUsers } from '../../actions/authActions'
@@ -21,7 +20,6 @@ class Users extends Component {
   render() {
     return (
       <div >
-        <NavbarAdmin />
         <table className="striped highlight centered">
           <thead >
             <tr>

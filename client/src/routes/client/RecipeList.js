@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Navbar from '../../components/Navbar';
 import { getRecipes } from '../../actions/recipeActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -22,7 +21,6 @@ class RecipeList extends Component {
   render() {
     return (
       <div>
-        <Navbar />
         <table className="striped highlight">
           <thead >
             <tr>

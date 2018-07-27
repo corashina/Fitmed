@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { loginUser } from '../actions/authActions'
 import { connect } from 'react-redux';
-import Navbar from '../components/Navbar';
 
 class Login extends Component {
   constructor() {
@@ -36,7 +35,6 @@ class Login extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <Navbar />
         <form className='card-center' noValidate onSubmit={this.onSubmit}>
           <div className="col s12 m7">
             <div className="card horizontal">

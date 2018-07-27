@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Navbar from '../components/Navbar';
 
 export default class NotFound extends Component {
   render() {
     return (
       <div>
-        <Navbar />
         <div className="col s12 m7" style={{ padding: '5%' }}>
           <h2 className="header center">Error</h2>
           <div className="card horizontal">

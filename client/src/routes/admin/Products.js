@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import NavbarAdmin from '../../components/NavbarAdmin';
 import { getProducts, addProduct, deleteProduct } from '../../actions/productActions'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -40,7 +39,6 @@ class Products extends Component {
   render() {
     return (
       <div>
-        <NavbarAdmin />
         <div className="row" >
           <form className="col s12" noValidate onSubmit={this.onSubmit}>
             <div className="input-field col s3">

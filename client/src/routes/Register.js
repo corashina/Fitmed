@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { registerUser } from '../actions/authActions'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Navbar from '../components/Navbar';
 import plan from '../img/plan.jpg';
 
 class Register extends Component {
@@ -56,7 +55,6 @@ class Register extends Component {
 		const { errors } = this.state;
 		return (
 			<div>
-				<Navbar />
 				<form noValidate onSubmit={this.onSubmit} style={{ padding: '2%' }}>
 					<div className="row" >
 						<div className="col s4 ">

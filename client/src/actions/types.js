@@ -12,3 +12,5 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const GET_RECIPES = 'GET_RECIPES';
 export const POST_RECIPE = 'POST_RECIPE';
 export const DELETE_RECIPE = 'DELETE_RECIPE';
+
+export const GET_DIET = 'GET_DIET';

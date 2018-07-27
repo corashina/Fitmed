@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
-import Navbar from '../../components/Navbar';
+import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class Home extends Component {
-  componentDidMount() {
-
-  }
+class Panel extends Component {
   render() {
     return (
       <div>
-        <Navbar />
         <div className="col s12 m7" style={{ padding: '2%' }}>
           <div className="card horizontal">
             <div className="card-stacked">
@@ -24,3 +21,13 @@ export default class Home extends Component {
     )
   }
 }
+
+Panel.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Panel)
