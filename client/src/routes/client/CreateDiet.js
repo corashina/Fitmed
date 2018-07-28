@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { postDiet } from '../../actions/dietActions';
+import { getProducts } from '../../actions/productActions';
 
-export default class CreateDiet extends Component {
+class CreateDiet extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,10 +90,10 @@ export default class CreateDiet extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const newTraining = {
+    const newDiet = {
       height: this.state.height,
       weight: this.state.weight,
-      training: this.state.trainings,
+      trainings: this.state.trainings,
       selectedAim: this.state.selectedAim,
       selectedAllergies: this.state.selectedAllergies,
       selectedIllnesses: this.state.selectedIllnesses,
@@ -107,8 +110,7 @@ export default class CreateDiet extends Component {
       selectedFruit: this.state.selectedFruit,
     };
 
-    console.log(newTraining);
-
+    this.props.postDiet(newDiet, this.props.history);
   }
   addItem(e) {
     if (!this.state[e.target.name].includes(e.target.value)) {
@@ -122,10 +124,12 @@ export default class CreateDiet extends Component {
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
   onDelete(e, i) { this.setState({ [e]: this.state[e].filter(el => i !== el) }) }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.products) this.setState({ products: nextProps.products })
+    if (nextProps.errors) this.setState({ errors: nextProps.errors })
+  }
   componentDidMount() {
-    axios.get('/api/products')
-      .then(res => { this.setState({ products: res.data }) })
-      .catch(err => this.setState({ errors: err.response.data }))
+    this.props.getProducts();
   }
   render() {
     const { errors } = this.state
@@ -377,3 +381,20 @@ export default class CreateDiet extends Component {
     )
   }
 }
+
+CreateDiet.propTypes = {
+  postDiet: PropTypes.func.isRequired,
+  getProducts: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  diet: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+  products: state.products,
+  diet: state.diet
+})
+
+export default connect(mapStateToProps, { postDiet, getProducts })(CreateDiet)

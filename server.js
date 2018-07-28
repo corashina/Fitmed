@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const bodyParser = require('body-parser');
 
 const users = require('./api/users');
@@ -20,6 +21,9 @@ mongoose
   .connect(db, { useMongoClient: true })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
+
+app.use(passport.initialize());
+require('./validation/passport')(passport);
 
 app.use('/api/users', users);
 app.use('/api/products', products);

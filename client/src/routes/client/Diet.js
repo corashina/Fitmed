@@ -12,16 +12,14 @@ class Diet extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.diet).length !== 0) this.setState({ diet: nextProps.diet })
-    if (nextProps.errors) this.setState({ errors: nextProps.errors })
+    if (Object.keys(nextProps.diet).length !== 0) { this.setState({ diet: nextProps.diet }) }
+    else this.props.history.push('/dieta/stworz')
   }
-  componentDidMount() {
-    this.props.getDiet();
-    if (Object.keys(this.props.diet).length === 0) this.props.history.push('/dieta/stworz');
-  }
+  componentDidMount() { this.props.getDiet(); }
   render() {
     return (
       <div>
+        {Object.keys(this.state.diet).map((key) => <p>{key} - {this.state.diet[key]}</p>)}
       </div>
     )
   }
@@ -29,11 +27,13 @@ class Diet extends Component {
 
 Diet.propTypes = {
   auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
   diet: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  errors: state.errors,
   diet: state.diet
 })
 

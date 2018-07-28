@@ -8,7 +8,7 @@ import dietReducer from './dietReducer';
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
-  data: productReducer,
+  products: productReducer,
   recipes: recipeReducer,
   diet: dietReducer
 })

@@ -23,16 +23,13 @@ const DietSchema = new Schema({
     required: true
   },
   selectedAllergies: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
   selectedIllnesses: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
   selectedAfflictions: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
   selectedMeatFrequency: {
     type: String,
@@ -59,24 +56,19 @@ const DietSchema = new Schema({
     required: true
   },
   selectedMeat: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
   selectedFish: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
   selectedNuts: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
   selectedFruit: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
   selectedVegetable: {
-    type: String,
-    required: true
+    type: [{ type: String }]
   },
 })
 

@@ -11,8 +11,6 @@ const validateSupplementationInput = require('../validation/supplementation');
 
 const User = require('../models/User');
 
-router.get('/test', (req, res) => res.json({ message: 'User api works' }));
-
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -75,7 +73,7 @@ router.post('/login', (req, res) => {
           (err, token) => {
             res.status(200).json({
               user,
-              token
+              token: 'Bearer ' + token
             });
           }
         );
