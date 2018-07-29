@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { getDiet } from '../../actions/dietActions';
 
 class Diet extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       diet: {},
       errors: {}
@@ -13,7 +13,7 @@ class Diet extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (Object.keys(nextProps.diet).length !== 0) { this.setState({ diet: nextProps.diet }) }
-    else this.props.history.push('/dieta/stworz')
+    else window.location.href = '/dieta/stworz';
   }
   componentDidMount() { this.props.getDiet(); }
   render() {

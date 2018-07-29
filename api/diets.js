@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 
 const validateDiet = require('../validation/diet');
-const authenticate = require('../validation/passport');
 
 const Diet = require('../models/Diet');
 

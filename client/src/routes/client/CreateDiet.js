@@ -5,8 +5,8 @@ import { postDiet } from '../../actions/dietActions';
 import { getProducts } from '../../actions/productActions';
 
 class CreateDiet extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       allergies:
         [
