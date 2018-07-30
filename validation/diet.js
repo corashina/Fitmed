@@ -28,15 +28,7 @@ module.exports = function validateLoginInput(data) {
 
   if (Validator.isEmpty(data.trainings)) errors.trainings = 'Trening nie może być pusty';
 
-  if (Validator.isEmpty(data.selectedMeatFrequency)) errors.selectedMeatFrequency = 'Mieso nie może być puste';
 
-  if (Validator.isEmpty(data.selectedFishFrequency)) errors.selectedFishFrequency = 'Ryby nie może być pusta';
-
-  if (Validator.isEmpty(data.selectedNutsFrequency)) errors.selectedNutsFrequency = 'Orzechy nie może być pusta';
-
-  if (Validator.isEmpty(data.selectedFruitFrequency)) errors.selectedFruitFrequency = 'Owoce nie może być pusta';
-
-  if (Validator.isEmpty(data.selectedVegetableFrequency)) errors.selectedVegetableFrequency = 'Warzywa nie może być pusta';
 
   return {
     errors,

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getRecipes = () => dispatch => {
   axios
-    .get('/api/recipes', { params: { jwt: localStorage.getItem('jwt') } })
+    .get('/api/recipes')
     .then(res => {
       dispatch({
         type: GET_RECIPES,
@@ -41,7 +41,7 @@ export const addRecipe = (newProduct) => dispatch => {
 
 export const deleteRecipe = (productData) => dispatch => {
   axios
-    .delete('/api/recipes', { params: { jwt: localStorage.getItem('jwt'), name: productData } })
+    .delete('/api/recipes', { params: { name: productData } })
     .then(res => {
       dispatch({
         type: DELETE_RECIPE,

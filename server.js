@@ -9,6 +9,7 @@ const users = require('./api/users');
 const products = require('./api/products');
 const recipes = require('./api/recipes');
 const diets = require('./api/diets');
+const supplementations = require('./api/supplementations');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,6 +30,7 @@ app.use('/api/users', users);
 app.use('/api/products', products);
 app.use('/api/recipes', recipes);
 app.use('/api/diets', diets);
+app.use('/api/supplementations', supplementations);
 
 app.use(express.static('client/build'));
 

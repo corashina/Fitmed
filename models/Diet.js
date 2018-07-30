@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const DietSchema = new Schema({
-  user_id: {
+  email: {
     type: String,
     required: true
   },
@@ -72,4 +72,4 @@ const DietSchema = new Schema({
   },
 })
 
-module.exports = User = mongoose.model('Diet', DietSchema);
+module.exports = Diet = mongoose.model('Diet', DietSchema);

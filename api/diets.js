@@ -8,16 +8,27 @@ const Diet = require('../models/Diet');
 
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     const errors = {};
-    Diet.findOne({ user_id: req.user._id })
-        .then(diet => {
-            if (!diet) {
-                errors.diet = 'Brak diety';
+    if (req.query.all) {
+        Diet.find().then(diets => {
+            if (!diets) {
+                errors.diet = 'Brak diet';
                 res.status(404).json(errors);
             } else {
-                res.status(200).json(diet)
+                res.status(200).json(diets);
             }
         })
-        .catch(err => console.log(err))
+    } else {
+        Diet.findOne({ user_id: req.user._id })
+            .then(diet => {
+                if (!diet) {
+                    errors.diet = 'Brak diety';
+                    res.status(404).json(errors);
+                } else {
+                    res.status(200).json(diet)
+                }
+            })
+            .catch(err => console.log(err))
+    }
 })
 
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -28,13 +39,12 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
     Diet.findOne({ user_id: req.user._id }).then(diet => {
         if (diet) {
             errors.diet = 'Dieta juz istnieje';
-            console.log("ISNTIEJE")
 
             return res.status(400).json(errors);
         } else {
 
             const newDiet = new Diet({
-                user_id: req.user._id,
+                email: req.user.email,
                 height: req.body.height,
                 weight: req.body.weight,
                 trainings: req.body.trainings,

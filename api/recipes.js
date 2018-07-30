@@ -1,15 +1,12 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const router = express.Router();
+const passport = require('passport');
 
-const validateAdmin = require('../validation/admin');
 const validateAddRecipe = require('../validation/recipe');
 
 const Recipe = require('../models/Recipe');
 
-router.get('/test', (req, res) => res.json({ message: 'Recipe api works' }));
-
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   Recipe.find().then(recipe => {
     if (recipe) {
       recipe.sort((a, b) => a.name - b.name).reverse();
@@ -20,7 +17,7 @@ router.get('/', (req, res) => {
   })
 })
 
-router.post('/', (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   const { errors, isValid } = validateAddRecipe(req.body);
 
   if (!isValid) return res.status(400).json(errors);
@@ -50,17 +47,14 @@ router.post('/', (req, res) => {
   });
 })
 
-router.delete('/', (req, res) => {
-  if (validateAdmin(req.query.jwt)) {
-    Recipe.findOne({ name: req.query.name }).then(recipe => {
-      if (!recipe) {
-        return res.status(400).json({ errors: "Przepis nie istnieje" });
-      } else {
-        recipe.remove().then(() => res.json(recipe))
-      }
-    });
-  } else res.status(400).json({ errors: "Brak autoryzacji" })
-
+router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Recipe.findOne({ name: req.query.name }).then(recipe => {
+    if (!recipe) {
+      return res.status(400).json({ errors: "Przepis nie istnieje" });
+    } else {
+      recipe.remove().then(() => res.json(recipe))
+    }
+  });
 })
 
 module.exports = router;

@@ -17,7 +17,7 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) this.props.history.push('/panel');
-    if (nextProps.auth.user.role === 'Admin') this.props.history.push('/admin/panel');
+    if (nextProps.auth.user.role === 'Admin') this.props.history.push('/admin/uzytkownicy');
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }

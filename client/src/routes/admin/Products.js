@@ -32,7 +32,7 @@ class Products extends Component {
     this.setState({ name: '' });
   }
   componentWillReceiveProps(nextProps) {
-    if (Array.isArray(nextProps.data.products)) this.setState({ products: nextProps.data.products });
+    if (Array.isArray(nextProps.products)) this.setState({ products: nextProps.products });
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
   }
   componentDidMount() { this.props.getProducts(); }
@@ -129,7 +129,7 @@ Products.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
-  data: state.data
+  products: state.products
 });
 
 export default connect(mapStateToProps, { getProducts, addProduct, deleteProduct })(Products)

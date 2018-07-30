@@ -36,7 +36,7 @@ export const addProduct = (newProduct) => dispatch => {
 
 export const deleteProduct = (productData) => dispatch => {
   axios
-    .delete('/api/products', { params: { jwt: localStorage.getItem('jwt'), name: productData } })
+    .delete('/api/products', { params: { name: productData } })
     .then(res => {
       dispatch({
         type: DELETE_PRODUCT,

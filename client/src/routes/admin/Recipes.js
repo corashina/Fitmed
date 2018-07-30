@@ -44,8 +44,8 @@ class Recipes extends Component {
     this.props.addRecipe(newRecipe);
   }
   componentWillReceiveProps(nextProps) {
-    if (Array.isArray(nextProps.recipes.recipes)) this.setState({ recipes: nextProps.recipes.recipes })
-    if (Array.isArray(nextProps.data.products)) this.setState({ products: nextProps.data.products })
+    if (Array.isArray(nextProps.recipes)) this.setState({ recipes: nextProps.recipes })
+    if (Array.isArray(nextProps.products)) this.setState({ products: nextProps.products })
     if (nextProps.errors) this.setState({ errors: nextProps.errors })
   }
   componentDidMount() {

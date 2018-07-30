@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { postSupplementation } from '../../actions/supplementationActions';
 
-export default class SupplementationForm extends Component {
+class CreateSupplementation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +28,6 @@ export default class SupplementationForm extends Component {
     e.preventDefault();
 
     const newSupplementation = {
-      auth: localStorage.getItem('jwt'),
       height: this.state.height,
       weight: this.state.weight,
       meals: this.state.meals,
@@ -36,13 +37,7 @@ export default class SupplementationForm extends Component {
       selectedAfflictions: this.state.selectedAfflictions,
     };
 
-    axios
-      .post('/api/users/supplementation', newSupplementation)
-      .then((res) => console.log(res))
-      .catch((err) => {
-        console.log(err.response)
-        this.setState({ errors: err.response.data })
-      })
+    this.props.postSupplementation(newSupplementation, this.props.history);
   }
   addItem(e) {
     if (!this.state[e.target.name].includes(e.target.value)) {
@@ -50,7 +45,8 @@ export default class SupplementationForm extends Component {
     }
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
-  onDelete(e, allergy) { this.setState({ [e]: this.state[e].filter(el => allergy !== el) }) }
+  onDelete(e, i) { this.setState({ [e]: this.state[e].filter(el => i !== el) }) }
+  componentWillReceiveProps(nextProps) { if (nextProps.errors) this.setState({ errors: nextProps.errors }) }
   render() {
     const { errors } = this.state
     return (
@@ -167,3 +163,18 @@ export default class SupplementationForm extends Component {
     )
   }
 }
+
+CreateSupplementation.propTypes = {
+  postSupplementation: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  supplementation: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+  supplementation: state.supplementation
+})
+
+export default connect(mapStateToProps, { postSupplementation })(CreateSupplementation)

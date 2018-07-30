@@ -15,13 +15,15 @@ import NotFound from './routes/NotFound';
 import Panel from './routes/client/Panel';
 import RecipeList from './routes/client/RecipeList';
 import Supplementation from './routes/client/Supplementation';
+import CreateSupplementation from './routes/client/CreateSupplementation';
 import Diet from './routes/client/Diet';
 import CreateDiet from './routes/client/CreateDiet';
 
 import Users from './routes/admin/Users';
-import Products from './routes/admin/Products';
+import Diets from './routes/admin/Diets';
 import Recipes from './routes/admin/Recipes';
-import Admin from './routes/admin/Admin';
+import Products from './routes/admin/Products';
+
 import Navbar from './components/Navbar';
 
 if (localStorage.jwt) {
@@ -49,13 +51,16 @@ class App extends Component {
               <Route path='/panel' exact component={Panel} />
               <Route path='/suplementacja' exact component={Supplementation} />
               <Route path='/przepisy' exact component={RecipeList} />
-              <Route path='/admin/panel' exact component={Admin} />
-              <Route path='/admin/uzytkownicy' exact component={Users} />
-              <Route path='/admin/produkty' exact component={Products} />
-              <Route path='/admin/przepisy' exact component={Recipes} />
               <Switch>
                 <PrivateRoute path='/dieta' exact component={Diet} />
                 <PrivateRoute path='/dieta/stworz' exact component={CreateDiet} />
+                <PrivateRoute path='/suplementacja' exact component={Supplementation} />
+                <PrivateRoute path='/suplementacja/stworz' exact component={CreateSupplementation} />
+
+                <PrivateRoute path='/admin/uzytkownicy' exact component={Users} />
+                <PrivateRoute path='/admin/diety' exact component={Diets} />
+                <PrivateRoute path='/admin/przepisy' exact component={Recipes} />
+                <PrivateRoute path='/admin/produkty' exact component={Products} />
               </Switch>
               <Route path='/404' exact component={NotFound} />
               <Redirect to="/404" />

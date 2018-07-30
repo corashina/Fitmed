@@ -18,6 +18,23 @@ export const getDiet = () => dispatch => {
     );
 };
 
+export const getDiets = () => dispatch => {
+  axios
+    .get('/api/diets', { params: { all: true } })
+    .then(res => {
+      dispatch({
+        type: GET_DIET,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 export const postDiet = (dietData, history) => dispatch => {
   axios
     .post('/api/diets', dietData)

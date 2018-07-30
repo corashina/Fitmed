@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
+const passport = require('passport');
 
 const validateAddProduct = require('../validation/product');
 const validateAdmin = require('../validation/admin')
@@ -45,16 +46,14 @@ router.post('/', (req, res) => {
   });
 })
 
-router.delete('/', (req, res) => {
-  if (validateAdmin(req.query.jwt)) {
-    Product.findOne({ name: req.query.name }).then(product => {
-      if (!product) {
-        return res.status(400).json({ error: 'Product doesnt exist' });
-      } else {
-        product.remove().then(() => res.json(product))
-      }
-    });
-  } else res.status(400).json({ permission: 'User not authorized' })
+router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Product.findOne({ name: req.query.name }).then(product => {
+    if (!product) {
+      return res.status(400).json({ error: 'Product doesnt exist' });
+    } else {
+      product.remove().then(() => res.json(product))
+    }
+  });
 })
 
 module.exports = router;
