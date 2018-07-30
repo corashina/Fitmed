@@ -18,7 +18,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
             }
         })
     } else {
-        Diet.findOne({ user_id: req.user._id })
+        Diet.findOne({ email: req.user.email })
             .then(diet => {
                 if (!diet) {
                     errors.diet = 'Brak diety';
