@@ -36,7 +36,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
     if (!isValid) return res.status(400).json(errors);
 
-    Diet.findOne({ user_id: req.user._id }).then(diet => {
+    Diet.findOne({ email: req.user.email }).then(diet => {
         if (diet) {
             errors.diet = 'Dieta juz istnieje';
 
