@@ -213,7 +213,8 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
   data: state.data,
-  recipes: state.recipes
+  recipes: state.recipes,
+  products: state.products
 });
 
 export default connect(mapStateToProps, { getRecipes, addRecipe, deleteRecipe, getProducts })(Recipes)

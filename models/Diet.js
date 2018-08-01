@@ -70,6 +70,90 @@ const DietSchema = new Schema({
   selectedVegetable: {
     type: [{ type: String }]
   },
+  time_01_monday: {
+    type: [{ type: String }]
+  },
+  time_01_tuesday: {
+    type: [{ type: String }]
+  },
+  time_01_wednesday: {
+    type: [{ type: String }]
+  },
+  time_01_thursday: {
+    type: [{ type: String }]
+  },
+  time_01_friday: {
+    type: [{ type: String }]
+  },
+  time_01_saturday: {
+    type: [{ type: String }]
+  },
+  time_01_sunday: {
+    type: [{ type: String }]
+  },
+  time_02_monday: {
+    type: [{ type: String }]
+  },
+  time_02_tuesday: {
+    type: [{ type: String }]
+  },
+  time_02_wednesday: {
+    type: [{ type: String }]
+  },
+  time_02_thursday: {
+    type: [{ type: String }]
+  },
+  time_02_friday: {
+    type: [{ type: String }]
+  },
+  time_02_saturday: {
+    type: [{ type: String }]
+  },
+  time_02_sunday: {
+    type: [{ type: String }]
+  },
+  time_03_monday: {
+    type: [{ type: String }]
+  },
+  time_03_tuesday: {
+    type: [{ type: String }]
+  },
+  time_03_wednesday: {
+    type: [{ type: String }]
+  },
+  time_03_thursday: {
+    type: [{ type: String }]
+  },
+  time_03_friday: {
+    type: [{ type: String }]
+  },
+  time_03_saturday: {
+    type: [{ type: String }]
+  },
+  time_03_sunday: {
+    type: [{ type: String }]
+  },
+  time_04_monday: {
+    type: [{ type: String }]
+  },
+  time_04_tuesday: {
+    type: [{ type: String }]
+  },
+  time_04_wednesday: {
+    type: [{ type: String }]
+  },
+  time_04_thursday: {
+    type: [{ type: String }]
+  },
+  time_04_friday: {
+    type: [{ type: String }]
+  },
+  time_04_saturday: {
+    type: [{ type: String }]
+  },
+  time_04_sunday: {
+    type: [{ type: String }]
+  },
 })
 
 module.exports = Diet = mongoose.model('Diet', DietSchema);

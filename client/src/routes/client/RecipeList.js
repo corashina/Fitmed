@@ -12,7 +12,7 @@ class RecipeList extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (Array.isArray(nextProps.recipes.recipes)) this.setState({ recipes: nextProps.recipes.recipes })
+    if (Array.isArray(nextProps.recipes)) this.setState({ recipes: nextProps.recipes })
     if (nextProps.errors) this.setState({ errors: nextProps.errors })
   }
   componentDidMount() {

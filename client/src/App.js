@@ -21,6 +21,7 @@ import CreateDiet from './routes/client/CreateDiet';
 
 import Users from './routes/admin/Users';
 import Diets from './routes/admin/Diets';
+import EditDiet from './routes/admin/EditDiet';
 import Recipes from './routes/admin/Recipes';
 import Products from './routes/admin/Products';
 
@@ -56,8 +57,8 @@ class App extends Component {
                 <PrivateRoute path='/dieta/stworz' exact component={CreateDiet} />
                 <PrivateRoute path='/suplementacja' exact component={Supplementation} />
                 <PrivateRoute path='/suplementacja/stworz' exact component={CreateSupplementation} />
-
                 <PrivateRoute path='/admin/uzytkownicy' exact component={Users} />
+                <PrivateRoute path='/admin/diety/:id' exact component={EditDiet} />
                 <PrivateRoute path='/admin/diety' exact component={Diets} />
                 <PrivateRoute path='/admin/przepisy' exact component={Recipes} />
                 <PrivateRoute path='/admin/produkty' exact component={Products} />

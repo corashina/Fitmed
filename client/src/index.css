@@ -80,3 +80,7 @@ nav>div a {
     left: 50% !important;
     transform: translateX(-50%);
 }
+
+.editDiet {
+    width: 12.5%;
+}

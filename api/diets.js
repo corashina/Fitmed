@@ -6,6 +6,26 @@ const validateDiet = require('../validation/diet');
 
 const Diet = require('../models/Diet');
 
+router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const errors = {};
+    if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+        Diet.findById({ _id: req.params.id })
+            .then(diet => {
+                if (!diet) {
+                    errors.diet = 'Brak diety';
+                    res.status(404).json(errors);
+                } else {
+                    res.status(200).json(diet)
+                }
+            })
+            .catch(err => console.log(err))
+    } else {
+        errors.diet = 'Brak diety';
+        res.status(404).json(errors);
+    }
+
+})
+
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     const errors = {};
     if (req.query.all) {
@@ -30,6 +50,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
             .catch(err => console.log(err))
     }
 })
+
 
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     const { errors, isValid } = validateDiet(req.body);
@@ -72,5 +93,29 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
         }
     })
 })
+
+
+router.post('/:id/addRecipe', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const errors = {};
+    const id = req.params.id;
+    const data = req.body.data;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        Diet.update({ _id: req.params.id }, { $set: { 'time_01_monday': ['xd'] } })
+            .then(diet => {
+                if (!diet) {
+                    errors.diet = 'Brak diety';
+                    res.status(404).json(errors);
+                } else {
+                    console.log(diet)
+                    res.status(200).json(diet)
+                }
+            })
+            .catch(err => console.log(err))
+    } else {
+        errors.diet = 'Brak diety';
+        res.status(404).json(errors);
+    }
+})
+
 
 module.exports = router;

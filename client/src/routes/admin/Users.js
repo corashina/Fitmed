@@ -15,36 +15,34 @@ class Users extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors.permission) this.props.history.push('/404')
-    this.setState({ users: nextProps.auth.users })
+    if (nextProps.auth.users) this.setState({ users: nextProps.auth.users })
   }
   render() {
     return (
-      <div >
-        <table className="striped highlight centered">
-          <thead >
-            <tr>
-              <th>Imie</th>
-              <th>Nazwisko</th>
-              <th>Email</th>
-              <th>Data urodzenia</th>
-              <th>Płeć</th>
-              <th>Numer telefonu</th>
-            </tr>
-          </thead>
+      <table className="striped highlight centered">
+        <thead >
+          <tr>
+            <th>Imie</th>
+            <th>Nazwisko</th>
+            <th>Email</th>
+            <th>Data urodzenia</th>
+            <th>Płeć</th>
+            <th>Numer telefonu</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            {this.state.users.map((user) =>
-              <tr key={user.email}>
-                <td>{user.firstname}</td>
-                <td>{user.lastname}</td>
-                <td>{user.email}</td>
-                <td>{user.birthday.split('T')[0]}</td>
-                <td>{user.sex}</td>
-                <td>{user.phone}</td>
-              </tr>)}
-          </tbody>
-        </table>
-      </div>
+        <tbody>
+          {this.state.users.map((user) =>
+            <tr key={user.email}>
+              <td>{user.firstname}</td>
+              <td>{user.lastname}</td>
+              <td>{user.email}</td>
+              <td>{user.birthday.split('T')[0]}</td>
+              <td>{user.sex}</td>
+              <td>{user.phone}</td>
+            </tr>)}
+        </tbody>
+      </table>
     )
   }
 }

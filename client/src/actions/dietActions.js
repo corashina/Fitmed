@@ -18,6 +18,23 @@ export const getDiet = () => dispatch => {
     );
 };
 
+export const getDietById = (id) => dispatch => {
+  axios
+    .get(`/api/diets/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_DIET,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 export const getDiets = () => dispatch => {
   axios
     .get('/api/diets', { params: { all: true } })
@@ -44,6 +61,23 @@ export const postDiet = (dietData, history) => dispatch => {
         payload: res.data
       })
       history.push('/dieta')
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const addRecipeToDiet = (recipeData, id) => dispatch => {
+  axios
+    .post(`/api/diets/${id}/addRecipe`, { data: recipeData })
+    .then(res => {
+      dispatch({
+        type: POST_DIET,
+        payload: res.data
+      })
     })
     .catch(err =>
       dispatch({

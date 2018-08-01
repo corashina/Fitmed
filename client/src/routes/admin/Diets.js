@@ -26,6 +26,7 @@ class Diets extends Component {
               <th>Wzrost</th>
               <th>Waga</th>
               <th>Cel</th>
+              <th>Edytuj</th>
             </tr>
           </thead>
           <tbody>
@@ -35,6 +36,7 @@ class Diets extends Component {
                 <td>{diet.height}</td>
                 <td>{diet.weight}</td>
                 <td>{diet.selectedAim}</td>
+                <td><a href={`/admin/diety/${diet._id}`} className="waves-effect waves-light btn-small" onClick={(e) => this.props.editDiet(diet._id)}><i className="material-icons">edit</i></a></td>
               </tr>)}
           </tbody>
         </table>
