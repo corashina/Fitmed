@@ -96,3 +96,13 @@ nav>div a {
     left: 0;
     transform: translate(-50%, -50%)
 }
+
+.badge {
+    margin: 0 1% !important;
+    color: #fff !important;
+}
+
+.sidenav {
+    width: 30%;
+    padding: 1% !important;
+}

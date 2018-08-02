@@ -15,6 +15,12 @@ class EditDiet extends Component {
         'time_02_monday', 'time_02_tuesday', 'time_02_wednesday', 'time_02_thursday', 'time_02_friday', 'time_02_saturday', 'time_02_sunday',
         'time_03_monday', 'time_03_tuesday', 'time_03_wednesday', 'time_03_thursday', 'time_03_friday', 'time_03_saturday', 'time_03_sunday',
         'time_04_monday', 'time_04_tuesday', 'time_04_wednesday', 'time_04_thursday', 'time_04_friday', 'time_04_saturday', 'time_04_sunday'],
+      selectedField: 'time_01_monday',
+      searchByName: '',
+      searchByCalories: 0,
+      searchByProtein: 0,
+      searchByFat: 0,
+      searchByCarbon: 0,
       errors: {}
     }
     this.addRecipe = this.addRecipe.bind(this);
@@ -36,6 +42,11 @@ class EditDiet extends Component {
     this.props.deleteRecipeFromDiet(e, this.props.match.params.id, field);
   }
   render() {
+    let filteredRecipes = this.state.recipes.filter(recipe => recipe.name.indexOf(this.state.searchByName) !== -1)
+      .filter(recipe => recipe.calories > this.state.searchByCalories)
+      .filter(recipe => recipe.protein > this.state.searchByProtein)
+      .filter(recipe => recipe.fat > this.state.searchByFat)
+      .filter(recipe => recipe.carbon > this.state.searchByCarbon)
     return (
       <div>
         <div className="row">
@@ -48,6 +59,30 @@ class EditDiet extends Component {
             </ul>
           </div>
           <div id="grafik">
+
+            <ul id="slide-out" class="sidenav">
+              <li>
+                <div className="row">          <input placeholder="Nazwa przepisu" onChange={(e) => this.setState({ searchByName: e.target.value })} type="text" /></div>
+                <div className="row"><input placeholder="Minimum kalorii" onChange={(e) => this.setState({ searchByCalories: e.target.value })} type="number" /></div>
+                <div className="row"><input placeholder="Minimum białka" onChange={(e) => this.setState({ searchByProtein: e.target.value })} type="number" /></div>
+                <div className="row"><input placeholder="Minimum tłuszczu" onChange={(e) => this.setState({ searchByFat: e.target.value })} type="number" /></div>
+                <div className="row">
+                  <input placeholder="Minimum weglowodanów" onChange={(e) => this.setState({ searchByCarbon: e.target.value })} type="number" />
+                </div>
+
+                <label for="recipe_name">Dostępne przepisy - {this.state.searchByCalories}</label>
+                <div class="collection">
+                  {filteredRecipes.map(e =>
+                    <a class="collection-item" onClick={() => this.addRecipe(e.name, this.state.selectedField)}>{e.name}
+                      <span class="new badge black" data-badge-caption="W">{e.carbon}</span>
+                      <span class="new badge indigo" data-badge-caption="T">{e.fat}</span>
+                      <span class="new badge green" data-badge-caption="B">{e.protein}</span>
+                      <span class="new badge blue" data-badge-caption="Kcal">{e.calories}</span>
+                    </a>)}
+                </div>
+              </li>
+            </ul>
+
             <div className="row">
               {this.state.days.map((e, i) => <div key={i} className="col editDiet card-panel">{e}</div>)}
             </div>
@@ -56,128 +91,23 @@ class EditDiet extends Component {
                 <div key={el} className="col editDiet card-panel">
                   {this.state.diet[el] &&
                     <div>{this.state.diet[el].map(e =>
-                      <span key={e} className="col s12">{e}<a onClick={() => this.deleteRecipe(e, el)}>
-                        <i className="material-icons">delete</i></a>
+                      <span
+                        key={e}
+                        className="col s12">{e}
+                        <a
+                          onClick={() => this.deleteRecipe(e, el)}>
+                          <i className="material-icons">delete</i>
+                        </a>
                       </span>)}
                     </div>
                   }
-                  <a className='dropdown-trigger btn-floating waves-effect waves-light btn-small editDiet-btn' data-target={el}><i className="material-icons">add</i></a>
-                  <ul id={el} className='dropdown-content'>
-                    {this.state.recipes.map((e, i) => <li key={i} value={e.name} onClick={() => this.addRecipe(e.name, el)} ><a>{e.name}</a></li>)}
-                  </ul>
+                  <a
+                    onClick={() => this.setState({ selectedField: el })}
+                    className='sidenav-trigger btn-floating waves-effect waves-light btn-small editDiet-btn' data-target="slide-out">
+                    <i className="material-icons">add</i>
+                  </a>
                 </div>
               )}
-
-              {/* <div className="col editDiet card-panel">
-                {this.state.diet.time_01_tuesday &&
-                  <div>{this.state.diet.time_01_tuesday.map(e =>
-                    <span className="col s12">{e}<a onClick={() => this.deleteRecipe(e, 'time_01_tuesday')}>
-                      <i className="material-icons">delete</i></a>
-                    </span>)}
-                  </div>
-                }
-                <a className='dropdown-trigger btn-floating waves-effect waves-light' data-target='dropdown2'><i className="material-icons">add</i></a>
-                <ul id='dropdown2' className='dropdown-content'>
-                  {this.state.recipes.map((e, i) => <li key={i} value={e.name} onClick={() => this.addRecipe(e.name, 'time_01_tuesday')} ><a>{e.name}</a></li>)}
-                </ul>
-              </div>
-              <div className="col editDiet card-panel">
-                {this.state.diet.time_01_wednesday &&
-                  <div>{this.state.diet.time_01_wednesday.map(e =>
-                    <span className="col s12">{e}<a onClick={() => this.deleteRecipe(e, 'time_01_wednesday')}>
-                      <i className="material-icons">delete</i></a>
-                    </span>)}
-                  </div>
-                }
-                <a className='dropdown-trigger btn-floating waves-effect waves-light' data-target='dropdown3'><i className="material-icons">add</i></a>
-                <ul id='dropdown3' className='dropdown-content'>
-                  {this.state.recipes.map((e, i) => <li key={i} value={e.name} onClick={() => this.addRecipe(e.name, 'time_01_wednesday')} ><a>{e.name}</a></li>)}
-                </ul>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_01_thursday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_01_friday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_01_saturday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_01_sunday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col editDiet card-panel"></div>
-              <div className="col editDiet card-panel">{this.state.diet.time_02_monday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_02_tuesday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_02_wednesday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_02_thursday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet">{this.state.diet.time_02_friday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_02_saturday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_02_sunday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col editDiet card-panel"></div>
-              <div className="col editDiet card-panel">{this.state.diet.time_03_monday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_03_tuesday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_03_wednesday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_03_thursday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_03_friday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_03_saturday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_03_sunday}
-                <a className="btn-floating waves-effect waves-light"><i className="material-icons">add</i></a>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col editDiet card-panel"></div>
-              <div className="col editDiet card-panel">{this.state.diet.time_04_monday}
-
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_04_tuesday}
-
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_04_wednesday}
-
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_04_thursday}
-
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_04_friday}
-
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_04_saturday}
-
-              </div>
-              <div className="col editDiet card-panel">{this.state.diet.time_04_sunday}
-
-              </div> */}
             </div>
           </div>
 
