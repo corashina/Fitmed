@@ -70,9 +70,26 @@ export const postDiet = (dietData, history) => dispatch => {
     );
 };
 
-export const addRecipeToDiet = (recipeData, id) => dispatch => {
+export const addRecipeToDiet = (recipeData, id, field) => dispatch => {
   axios
-    .post(`/api/diets/${id}/addRecipe`, { data: recipeData })
+    .post(`/api/diets/${id}/addRecipe`, { data: recipeData, field })
+    .then(res => {
+      dispatch({
+        type: POST_DIET,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const deleteRecipeFromDiet = (name, id, field) => dispatch => {
+  axios
+    .post(`/api/diets/${id}/deleteRecipe`, { field, name })
     .then(res => {
       dispatch({
         type: POST_DIET,

@@ -82,5 +82,17 @@ nav>div a {
 }
 
 .editDiet {
-    width: 12.5%;
+    box-sizing: border-box;
+    width: 12%;
+    height: 10vh;
+    padding: 1% !important;
+    margin: 1% !important;
+    position: relative;
+}
+
+.editDiet-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%)
 }

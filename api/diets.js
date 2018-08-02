@@ -99,15 +99,15 @@ router.post('/:id/addRecipe', passport.authenticate('jwt', { session: false }), 
     const errors = {};
     const id = req.params.id;
     const data = req.body.data;
+    const field = req.body.field;
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
-        Diet.update({ _id: req.params.id }, { $set: { 'time_01_monday': ['xd'] } })
+        Diet.update({ _id: req.params.id }, { $addToSet: { [field]: data } })
             .then(diet => {
                 if (!diet) {
                     errors.diet = 'Brak diety';
                     res.status(404).json(errors);
                 } else {
-                    console.log(diet)
-                    res.status(200).json(diet)
+                    Diet.findById({ _id: req.params.id }).then(e => res.status(200).json(e)).catch(err => console.log(err))
                 }
             })
             .catch(err => console.log(err))
@@ -117,5 +117,25 @@ router.post('/:id/addRecipe', passport.authenticate('jwt', { session: false }), 
     }
 })
 
+router.post('/:id/deleteRecipe', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const errors = {};
+    const id = req.params.id;
+    const field = req.body.field;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        Diet.update({ _id: req.params.id }, { $pull: { [field]: req.body.name } })
+            .then(diet => {
+                if (!diet) {
+                    errors.diet = 'Brak diety';
+                    res.status(404).json(errors);
+                } else {
+                    Diet.findById({ _id: req.params.id }).then(e => res.status(200).json(e)).catch(err => console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    } else {
+        errors.diet = 'Brak diety';
+        res.status(404).json(errors);
+    }
+})
 
 module.exports = router;
