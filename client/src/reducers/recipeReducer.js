@@ -7,9 +7,9 @@ export default function (state = initialState, action) {
     case GET_RECIPES:
       return action.payload
     case POST_RECIPE:
-      return [action.payload, ...state.recipes]
+      return [action.payload, ...state]
     case DELETE_RECIPE:
-      return state.recipes.filter(recipe => recipe._id !== action.payload._id)
+      return state.filter(recipe => recipe._id !== action.payload._id)
     default:
       return state;
   }

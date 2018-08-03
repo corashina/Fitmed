@@ -74,6 +74,7 @@ export const addRecipeToDiet = (recipeData, id, field) => dispatch => {
   axios
     .post(`/api/diets/${id}/addRecipe`, { data: recipeData, field })
     .then(res => {
+      window.M.toast({ html: "Przepis dodany" });
       dispatch({
         type: POST_DIET,
         payload: res.data
@@ -91,6 +92,25 @@ export const deleteRecipeFromDiet = (name, id, field) => dispatch => {
   axios
     .post(`/api/diets/${id}/deleteRecipe`, { field, name })
     .then(res => {
+      window.M.toast({ html: "Przepis usunięty" });
+      dispatch({
+        type: POST_DIET,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const updateDietTime = (time, id) => dispatch => {
+  axios
+    .put(`/api/diets/${id}/updateTime`, { time: time })
+    .then(res => {
+      window.M.toast({ html: "Godzina zmieniona" });
       dispatch({
         type: POST_DIET,
         payload: res.data

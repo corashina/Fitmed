@@ -29,25 +29,22 @@ export const addRecipe = (newProduct) => dispatch => {
       window.M.toast({ html: "Przepis dodany" });
     })
     .catch(err => {
-      if (err.response !== undefined) {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data
-        })
-      }
-    }
-    );
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    });
 };
 
 export const deleteRecipe = (productData) => dispatch => {
   axios
     .delete('/api/recipes', { params: { name: productData } })
     .then(res => {
+      window.M.toast({ html: "Przepis usunięty" });
       dispatch({
         type: DELETE_RECIPE,
         payload: res.data
       })
-      window.M.toast({ html: "Przepis usunięty" });
     })
     .catch(err => {
       dispatch({

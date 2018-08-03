@@ -83,18 +83,41 @@ nav>div a {
 
 .editDiet {
     box-sizing: border-box;
-    width: 12%;
-    height: 10vh;
-    padding: 1% !important;
-    margin: 1% !important;
-    position: relative;
+    width: 12.5%;
+    height: 20vh;
+    margin: 0% !important;
+    padding: 0.5% !important;
 }
 
-.editDiet-btn {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%)
+.editDiet-sm {
+    box-sizing: border-box;
+    width: 12.5%;
+    min-height: 2.5rem !important;
+    height: 5vh !important;
+    margin: 0% !important;
+    padding: 0.5% !important;
+    text-align: center;
+}
+
+.editDiet span {
+    padding: 0 0 0 2% !important;
+    margin: 0 0 2% 0 !important;
+}
+
+.hour-item {
+    box-sizing: border-box;
+    text-align: left;
+    margin: 0 !important;
+    padding: auto !important;
+    height: 20vh;
+}
+
+.hour-item-sm {
+    margin: 0 !important;
+    padding: 5% !important;
+    min-height: 2.5rem !important;
+    text-align: center;
+    height: 5vh;
 }
 
 .badge {
@@ -105,4 +128,13 @@ nav>div a {
 .sidenav {
     width: 30%;
     padding: 1% !important;
+}
+
+.left-panel {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 12.5%;
+    height: 85vh;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr)
 }

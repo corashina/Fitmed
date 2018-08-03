@@ -190,7 +190,7 @@ class Recipes extends Component {
                 <td>{recipe.execution}</td>
                 <td>{recipe.exclude}</td>
                 <td>
-                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteRecipe(recipe.name)}><i className="material-icons">close</i></a>
+                  <a className="btn-floating waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteRecipe(recipe.name)}><i className="material-icons">close</i></a>
                 </td>
               </tr>)}
           </tbody>

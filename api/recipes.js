@@ -42,19 +42,17 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
       newRecipe
         .save()
         .then(recipe => res.status(200).json(recipe))
-        .catch(err => res.status(404).json(errors));
+        .catch(err => console.log(err));
     }
   });
 })
 
 router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Recipe.findOne({ name: req.query.name }).then(recipe => {
-    if (!recipe) {
-      return res.status(400).json({ errors: "Przepis nie istnieje" });
-    } else {
-      recipe.remove().then(() => res.json(recipe))
-    }
-  });
+  Recipe.findOne({ name: req.query.name })
+    .then(recipe => {
+      recipe.remove();
+      res.status(200).json(recipe)
+    })
 })
 
 module.exports = router;

@@ -55,6 +55,22 @@ const DietSchema = new Schema({
     type: String,
     required: true
   },
+  time_01: {
+    type: Number,
+    default: 7
+  },
+  time_02: {
+    type: Number,
+    default: 11
+  },
+  time_03: {
+    type: Number,
+    default: 15
+  },
+  time_04: {
+    type: Number,
+    default: 19
+  },
   selectedMeat: {
     type: [{ type: String }]
   },

@@ -138,4 +138,31 @@ router.post('/:id/deleteRecipe', passport.authenticate('jwt', { session: false }
     }
 })
 
+
+router.put('/:id/updateTime', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const errors = {};
+    const id = req.params.id;
+    const time = req.body.time;
+    let field = '';
+    if (time > 6 && time < 11) field = 'time_01';
+    else if (time > 10 && time < 15) field = 'time_02';
+    else if (time > 14 && time < 19) field = 'time_03';
+    else field = 'time_04';
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        Diet.update({ _id: id }, { $set: { [field]: time } })
+            .then(diet => {
+                if (!diet) {
+                    errors.diet = 'Brak diety';
+                    res.status(404).json(errors);
+                } else {
+                    Diet.findById({ _id: id }).then(e => res.status(200).json(e)).catch(err => console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    } else {
+        errors.diet = 'Brak diety';
+        res.status(404).json(errors);
+    }
+})
+
 module.exports = router;

@@ -47,13 +47,11 @@ router.post('/', (req, res) => {
 })
 
 router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Product.findOne({ name: req.query.name }).then(product => {
-    if (!product) {
-      return res.status(400).json({ error: 'Product doesnt exist' });
-    } else {
-      product.remove().then(() => res.json(product))
-    }
-  });
+  Product.findOne({ name: req.query.name })
+    .then(product => {
+      product.remove()
+      return res.status(200).json(product)
+    });
 })
 
 module.exports = router;

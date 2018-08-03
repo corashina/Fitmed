@@ -108,7 +108,7 @@ class Products extends Component {
                 <td>{product.unit}</td>
                 <td>{product.category}</td>
                 <td>
-                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteProduct(product.name)}><i className="material-icons">close</i></a>
+                  <a className="btn-floating waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteProduct(product.name)}><i className="material-icons">close</i></a>
                 </td>
               </tr>)}
           </tbody>

@@ -33,7 +33,7 @@ class Navbar extends Component {
               }
               {this.props.auth.isAuthenticated && this.props.auth.user.role === 'Admin' &&
                 < div >
-                  <li><a href="/admin/uzytkownicy"><i className="material-icons right">format_list_bulleted</i>Users</a></li>
+                  <li><a href="/admin/uzytkownicy"><i className="material-icons right">format_list_bulleted</i>Pacjenci</a></li>
                   <li><a href="/admin/diety"><i className="material-icons left">local_dining</i>Diety</a></li>
                   <li><a href="/admin/przepisy"><i className="material-icons left">event_note</i>Przepisy</a></li>
                   <li><a href="/admin/produkty"><i className="material-icons left">trending_up</i>Produkty</a></li>

@@ -7,9 +7,9 @@ export default function (state = initialState, action) {
     case GET_PRODUCTS:
       return action.payload
     case POST_PRODUCT:
-      return [action.payload, ...state.products]
+      return [action.payload, ...state]
     case DELETE_PRODUCT:
-      return state.products.filter(product => product._id !== action.payload._id)
+      return state.filter(product => product._id !== action.payload._id)
     default:
       return state;
   }
