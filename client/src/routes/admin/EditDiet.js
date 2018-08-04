@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getDietById, addRecipeToDiet, deleteRecipeFromDiet, updateDietTime } from '../../actions/dietActions';
+import { getDietById, addRecipeToDiet, deleteRecipeFromDiet, updateDietTime, addComment, deleteComment } from '../../actions/dietActions';
 import { getProducts } from '../../actions/productActions';
 import { getRecipes } from '../../actions/recipeActions';
 import { connect } from 'react-redux';
@@ -23,11 +23,14 @@ class EditDiet extends Component {
       searchByProtein: 0,
       searchByFat: 0,
       searchByCarbon: 0,
+      addComment: '',
       errors: {}
     }
     this.addRecipe = this.addRecipe.bind(this);
     this.deleteRecipe = this.deleteRecipe.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentWillMount() {
     this.props.getRecipes();
@@ -43,13 +46,23 @@ class EditDiet extends Component {
   addRecipe(e, field) { this.props.addRecipeToDiet(e, this.props.match.params.id, field); }
   deleteRecipe(e, field) { this.props.deleteRecipeFromDiet(e, this.props.match.params.id, field) }
   onChange(e) { this.props.updateDietTime(e.target.value, this.props.match.params.id) }
+  handleChange(e) { this.setState({ [e.target.name]: e.target.value }) }
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.addComment(this.state.addComment, this.props.match.params.id)
+  }
+  deleteComment(e) { this.props.deleteComment(e, this.props.match.params.id) }
   render() {
-    let filteredRecipes = this.state.recipes.filter(recipe => recipe.name.indexOf(this.state.searchByName) !== -1)
+
+    var shopping = this.state.recipes.filter(e => [...new Set(this.state.fields.map(e => this.state.diet[e]).reduce((a, b) => a.concat(b), []))].indexOf(e.name >= 0))
+
+    var filteredRecipes = this.state.recipes
+      .filter(recipe => recipe.name.toLowerCase().includes(this.state.searchByName.toLowerCase()))
       .filter(recipe => recipe.calories > this.state.searchByCalories)
       .filter(recipe => recipe.protein > this.state.searchByProtein)
       .filter(recipe => recipe.fat > this.state.searchByFat)
       .filter(recipe => recipe.carbon > this.state.searchByCarbon)
-    let shopping = this.state.fields.map(e => this.state.diet[e])
+
     return (
       <div>
         <div className="row">
@@ -159,11 +172,46 @@ class EditDiet extends Component {
               </div>
             )}
           </div>
-          <div id="lista-zakupow" className="col s12">
-            {Object.values(this.state.diet).map(e => <p>{e}</p>)}
-          </div>
-          <div id="komentarze" className="col s12">
+          <div id="lista-zakupow" className="col s6 offset-s3">
+            {shopping.map((e, i) =>
+              <div key={i} className="collection" style={{ border: 'none' }}>
+                <a key={e.name} className="collection-item teal white-text">{e.name}
+                  <span className="new badge black" data-badge-caption="Węglowodany">{e.carbon}</span>
+                  <span className="new badge indigo" data-badge-caption="Tłuszcz">{e.fat}</span>
+                  <span className="new badge green" data-badge-caption="Białko">{e.protein}</span>
+                  <span className="new badge blue" data-badge-caption="Kcal">{e.calories}</span>
+                </a>
+                <div className="collection">
+                  {e.ingredients.map((el, i) =>
+                    <a key={i} className="collection-item">{el.name}
+                      <span className="new badge orange" data-badge-caption="">{el.category}</span>
+                      <span className="new badge purple" data-badge-caption="">{el.unit}</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
 
+          </div>
+          <div id="komentarze" className="col s6 offset-s3 input-field">
+            <form onSubmit={this.handleSubmit}>
+              <div className="row">
+                <input name="addComment" placeholder="Dodaj komentarz" type="text" onChange={this.handleChange} />
+              </div>
+              <div className="row">
+                <button className="btn waves-effect waves-light col s12 green" type="submit" onSubmit={this.handleSubmit}>Dodaj</button>
+              </div>
+            </form>
+            <ul className="collection">
+              {this.state.diet.comments &&
+                this.state.diet.comments.map(e =>
+                  <li className="collection-item card-panel grey lighten-4">
+                    <a className="btn-floating secondary-content red" onClick={() => this.deleteComment(e.data)}><i className="material-icons">close</i></a>
+                    <b><p>{e.date.split('T')[0]}</p></b>
+                    <p>{e.data}</p>
+                  </li>
+                )}
+            </ul>
           </div>
           <div id="opis-i-wlasciwosci" className="col s12">
 
@@ -180,6 +228,8 @@ EditDiet.propTypes = {
   getRecipes: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   updateDietTime: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -192,5 +242,5 @@ const mapStateToProps = state => ({
   recipes: state.recipes
 });
 
-export default connect(mapStateToProps, { getDietById, addRecipeToDiet, getRecipes, deleteRecipeFromDiet, getProducts, updateDietTime })(EditDiet)
+export default connect(mapStateToProps, { getDietById, addRecipeToDiet, getRecipes, deleteRecipeFromDiet, getProducts, updateDietTime, addComment, deleteComment })(EditDiet)
 

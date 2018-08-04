@@ -123,3 +123,39 @@ export const updateDietTime = (time, id) => dispatch => {
       })
     );
 };
+
+export const addComment = (comment, id) => dispatch => {
+  axios
+    .post(`/api/diets/${id}/addComment`, { comment })
+    .then(res => {
+      window.M.toast({ html: "Komentarz dodany" });
+      dispatch({
+        type: POST_DIET,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const deleteComment = (comment, id) => dispatch => {
+  axios
+    .put(`/api/diets/${id}/deleteComment`, { comment })
+    .then(res => {
+      window.M.toast({ html: "Komentarz usunięty" });
+      dispatch({
+        type: POST_DIET,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};

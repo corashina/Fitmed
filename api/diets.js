@@ -165,4 +165,46 @@ router.put('/:id/updateTime', passport.authenticate('jwt', { session: false }), 
     }
 })
 
+router.post('/:id/addComment', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const errors = {};
+    const id = req.params.id;
+    const comment = req.body.comment;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        Diet.update({ _id: id, 'comments.data': { $ne: comment } }, { $push: { 'comments': { data: comment, date: new Date() } } })
+            .then(diet => {
+                if (!diet) {
+                    errors.diet = 'Brak diety';
+                    res.status(404).json(errors);
+                } else {
+                    Diet.findById({ _id: id }).then(e => res.status(200).json(e)).catch(err => console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    } else {
+        errors.diet = 'Brak diety';
+        res.status(404).json(errors);
+    }
+})
+
+router.put('/:id/deleteComment', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const errors = {};
+    const id = req.params.id;
+    const comment = req.body.comment;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        Diet.update({ _id: id }, { $pull: { 'comments': { data: comment } } })
+            .then(diet => {
+                if (!diet) {
+                    errors.diet = 'Brak diety';
+                    res.status(404).json(errors);
+                } else {
+                    Diet.findById({ _id: id }).then(e => res.status(200).json(e)).catch(err => console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    } else {
+        errors.diet = 'Brak diety';
+        res.status(404).json(errors);
+    }
+})
+
 module.exports = router;

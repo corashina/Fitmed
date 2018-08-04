@@ -170,6 +170,10 @@ const DietSchema = new Schema({
   time_04_sunday: {
     type: [{ type: String }]
   },
+  comments: {
+    type: [],
+    default: []
+  }
 })
 
 module.exports = Diet = mongoose.model('Diet', DietSchema);

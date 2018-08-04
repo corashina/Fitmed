@@ -90,13 +90,13 @@ nav>div a {
 }
 
 .editDiet-sm {
-    box-sizing: border-box;
     width: 12.5%;
-    min-height: 2.5rem !important;
+    min-height: 50px !important;
     height: 5vh !important;
     margin: 0% !important;
-    padding: 0.5% !important;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .editDiet span {
@@ -105,19 +105,20 @@ nav>div a {
 }
 
 .hour-item {
-    box-sizing: border-box;
-    text-align: left;
     margin: 0 !important;
-    padding: auto !important;
     height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .hour-item-sm {
     margin: 0 !important;
-    padding: 5% !important;
-    min-height: 2.5rem !important;
-    text-align: center;
+    min-height: 50px !important;
     height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .badge {
