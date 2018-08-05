@@ -1,7 +1,7 @@
 import { GET_ERRORS, GET_RECIPES, POST_RECIPE, DELETE_RECIPE } from './types';
 import axios from 'axios';
 
-export const getRecipes = () => dispatch => {
+export const getRecipes = (history) => dispatch => {
   axios
     .get('/api/recipes')
     .then(res => {

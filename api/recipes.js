@@ -17,7 +17,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
   })
 })
 
-router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
   const { errors, isValid } = validateAddRecipe(req.body);
 
   if (!isValid) return res.status(400).json(errors);
@@ -47,7 +47,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
   });
 })
 
-router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.delete('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
   Recipe.findOne({ name: req.query.name })
     .then(recipe => {
       recipe.remove();

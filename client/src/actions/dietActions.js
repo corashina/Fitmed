@@ -35,7 +35,7 @@ export const getDietById = (id) => dispatch => {
     );
 };
 
-export const getDiets = () => dispatch => {
+export const getDiets = (history) => dispatch => {
   axios
     .get('/api/diets', { params: { all: true } })
     .then(res => {
@@ -44,12 +44,12 @@ export const getDiets = () => dispatch => {
         payload: res.data
       })
     })
-    .catch(err =>
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 export const postDiet = (dietData, history) => dispatch => {

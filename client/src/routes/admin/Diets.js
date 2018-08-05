@@ -15,7 +15,7 @@ class Diets extends Component {
     if (Array.isArray(nextProps.diet)) this.setState({ diet: nextProps.diet });
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
   }
-  componentDidMount() { this.props.getDiets(); }
+  componentDidMount() { this.props.getDiets(this.props.history); }
   render() {
     return (
       <div>

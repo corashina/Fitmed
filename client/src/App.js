@@ -49,10 +49,10 @@ class App extends Component {
               <Route path='/' exact component={Landing} />
               <Route path='/rejestracja' exact component={Register} />
               <Route path='/logowanie' exact component={Login} />
-              <Route path='/panel' exact component={Panel} />
-              <Route path='/suplementacja' exact component={Supplementation} />
-              <Route path='/przepisy' exact component={RecipeList} />
               <Switch>
+                <PrivateRoute path='/panel' exact component={Panel} />
+                <PrivateRoute path='/suplementacja' exact component={Supplementation} />
+                <PrivateRoute path='/przepisy' exact component={RecipeList} />
                 <PrivateRoute path='/dieta' exact component={Diet} />
                 <PrivateRoute path='/dieta/stworz' exact component={CreateDiet} />
                 <PrivateRoute path='/suplementacja' exact component={Supplementation} />
@@ -62,9 +62,9 @@ class App extends Component {
                 <PrivateRoute path='/admin/diety' exact component={Diets} />
                 <PrivateRoute path='/admin/przepisy' exact component={Recipes} />
                 <PrivateRoute path='/admin/produkty' exact component={Products} />
+                <Route path='/404' exact component={NotFound} />
+                <Redirect to="/404" />
               </Switch>
-              <Route path='/404' exact component={NotFound} />
-              <Redirect to="/404" />
             </Switch>
           </div>
         </BrowserRouter>

@@ -18,11 +18,17 @@ class Recipes extends Component {
       exclude: '',
       recipes: [],
       products: [],
+      sortByName: false,
+      sortByCalories: false,
+      sortByProtein: false,
+      sortByFat: false,
+      sortByCarb: false,
       errors: {}
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
   onSubmit(e) {
@@ -55,7 +61,25 @@ class Recipes extends Component {
   addIngredient(e) {
     this.setState({ ingredients: this.state.ingredients.concat(e) })
   }
+  handleChange(e) {
+    this.setState({ sortByName: false })
+    this.setState({ sortByCalories: false })
+    this.setState({ sortByProtein: false })
+    this.setState({ sortByFat: false })
+    this.setState({ sortByCarb: false })
+    this.setState({ [e.target.value]: true })
+  }
   render() {
+    let filteredRecipes = this.state.sortByName === true ? this.state.recipes.sort((a, b) => a.name < b.name) : this.state.recipes;
+
+    filteredRecipes = this.state.sortByCalories === true ? this.state.recipes.sort((a, b) => a.calories < b.calories) : this.state.recipes;
+
+    filteredRecipes = this.state.sortByProtein === true ? this.state.recipes.sort((a, b) => a.protein < b.protein) : this.state.recipes;
+
+    filteredRecipes = this.state.sortByFat === true ? this.state.recipes.sort((a, b) => a.fat < b.fat) : this.state.recipes;
+
+    filteredRecipes = this.state.sortByCarb === true ? this.state.recipes.sort((a, b) => a.carbon < b.carbon) : this.state.recipes;
+
     return (
       <div>
         <div className="row" >
@@ -163,7 +187,30 @@ class Recipes extends Component {
             </div>
           </form>
         </div>
-
+        <div className="row">
+          <div className="col s6 offset-s3">
+            <label className="col">
+              <input name="group1" type="radio" type="radio" value="sortByName" checked={this.state.sortByName} onChange={this.handleChange} />
+              <span>Sortuj po nazwie</span>
+            </label>
+            <label className="col">
+              <input name="group1" type="radio" value="sortByCalories" checked={this.state.sortByCalories} onChange={this.handleChange} />
+              <span>Sortuj po kaloriach</span>
+            </label>
+            <label className="col">
+              <input name="group1" type="radio" value="sortByProtein" checked={this.state.sortByProtein} onChange={this.handleChange} />
+              <span>Sortuj po białku</span>
+            </label>
+            <label className="col">
+              <input name="group1" type="radio" value="sortByFat" checked={this.state.sortByFat} onChange={this.handleChange} />
+              <span>Sortuj po tłuszczu</span>
+            </label>
+            <label className="col">
+              <input name="group1" type="radio" value="sortByCarb" checked={this.state.sortByCarb} onChange={this.handleChange} />
+              <span>Sortuj po węglowodanach</span>
+            </label>
+          </div>
+        </div>
         <table className="striped highlight">
           <thead >
             <tr>
@@ -179,7 +226,7 @@ class Recipes extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.recipes.map((recipe) =>
+            {filteredRecipes.map((recipe) =>
               <tr key={recipe.name}>
                 <td>{recipe.name}</td>
                 <td>{recipe.calories}</td>

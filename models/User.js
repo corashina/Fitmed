@@ -30,11 +30,18 @@ const UserSchema = new Schema({
     type: Number,
     required: false
   },
-  role: {
-    type: String, enum: ['User', 'Admin', 'Dietician'],
+  plan: {
+    type: Number,
     required: true
-  }
-
+  },
+  isDietician: {
+    type: Boolean,
+    required: true
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true
+  },
 }, { timestamps: true })
 
 module.exports = User = mongoose.model('User', UserSchema);

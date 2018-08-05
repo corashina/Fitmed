@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { registerUser } from '../actions/authActions'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import plan from '../img/plan.jpg';
 
 class Register extends Component {
 	constructor(props) {
@@ -16,11 +15,12 @@ class Register extends Component {
 			birthday: '',
 			sex: 'Mężczyzna',
 			phone: '',
+			plan: 11,
 			errors: {},
-			planLength: 1,
 		};
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.handleRadioChange = this.handleRadioChange.bind(this);
 	}
 	componentDidMount() {
 		if (this.props.auth.isAuthenticated) this.props.history.push('/panel');
@@ -42,75 +42,23 @@ class Register extends Component {
 			password2: this.state.password2,
 			birthday: this.state.birthday,
 			sex: this.state.sex,
-			phone: this.state.phone
+			phone: this.state.phone,
+			plan: this.state.plan
 		};
 
 		this.props.registerUser(newUser, this.props.history);
 	}
 	onChange(e) { this.setState({ [e.target.name]: e.target.value }); }
-	onRadioChange(value) { this.setState({ sex: value }) }
-	onPlanLengthChange(value) { this.setState({ planLength: value }) }
-	proceed() { this.setState({ chosenPlan: !this.state.chosenPlan }) }
+	onRadioChange(e) { this.setState({ sex: e }) }
+	handleRadioChange(e) {
+		console.log(e.target.value)
+		this.setState({ plan: e.target.value })
+	}
 	render() {
 		const { errors } = this.state;
 		return (
 			<div>
 				<form noValidate onSubmit={this.onSubmit} style={{ padding: '2%' }}>
-					<div className="row" >
-						<div className="col s4 ">
-							<div className="card">
-								<div className="card-image">
-									<img src={plan} alt="Dieta" />
-									<span className="card-title">Dieta</span>
-								</div>
-								<div className="card-content">
-									<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque, dolores.</p>
-								</div>
-							</div>
-						</div>
-						<div className="col s4 ">
-							<div className="card">
-								<div className="card-image">
-									<img src={plan} alt="Trening" />
-									<span className="card-title">Trening</span>
-								</div>
-								<div className="card-content">
-									<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque, dolores.</p>
-								</div>
-							</div>
-						</div>
-						<div className="col s4 ">
-							<div className="card">
-								<div className="card-image">
-									<img src={plan} alt="Dieta + Trening" />
-									<span className="card-title">Dieta + Trening</span>
-								</div>
-								<div className="card-content">
-									<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque, dolores.</p>
-								</div>
-							</div>
-						</div>
-						<div className="row">
-							<label>
-								<div className="input-field col s4 center">
-									<input defaultChecked name="planLength" type="radio" value={this.state.planLength} onClick={(e) => this.onPlanLengthChange(1)} />
-									<span>1 Miesiąc</span>
-								</div>
-							</label>
-							<label>
-								<div className="input-field col s4 center">
-									<input name="planLength" type="radio" value={this.state.planLength} onClick={(e) => this.onPlanLengthChange(3)} />
-									<span>3 Miesiące</span>
-								</div>
-							</label>
-							<label>
-								<div className="input-field col s4 center">
-									<input name="planLength" type="radio" value={this.state.planLength} onClick={(e) => this.onPlanLengthChange(6)} />
-									<span>6 Miesięcy</span>
-								</div>
-							</label>
-						</div>
-					</div>
 					<div className="row">
 						<div className="col s3"></div>
 						<div className="col s6 center">
@@ -209,21 +157,124 @@ class Register extends Component {
 											<span className="helper-text" data-error={errors.phone}></span>
 										</div>
 										<div className="row">
-											<label>
-												<div className="input-field col s6">
-													<input defaultChecked name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Mężczyzna')} />
-													<span>Mężczyzna</span>
-												</div>
-											</label>
-											<label>
-												<div className="input-field col s6">
-													<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Kobieta')} />
-													<span>Kobieta</span>
-												</div>
-											</label>
+											<div className="col s6 offset-s4">
+												<label>
+													<div className="input-field col">
+														<input defaultChecked name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Mężczyzna')} />
+														<span>Mężczyzna</span>
+													</div>
+												</label>
+												<label>
+													<div className="input-field col">
+														<input name="sex" type="radio" value={this.state.sex} onClick={(e) => this.onRadioChange('Kobieta')} />
+														<span>Kobieta</span>
+													</div>
+												</label>
+											</div>
 										</div>
+										<div className="row">
+											<div className="col s12">
+												<ul id="tabs-swipe-demo" className="tabs">
+													<li className="tab col s4">
+														<a className="active" href="#plan-swipe-1">Dieta</a>
+													</li>
+													<li className="tab col s4">
+														<a href="#plan-swipe-2">Trening</a>
+													</li>
+													<li className="tab col s4">
+														<a href="#plan-swipe-3">Dieta + Trening</a>
+													</li>
+												</ul>
+												<div id="plan-swipe-1" className="col s12">
+													<div className="row"></div>
+													<div className="row">
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" defaultChecked value="11" onChange={this.handleRadioChange} />
+															<span>1 Miesiąc</span>
+														</label>
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="12" onChange={this.handleRadioChange} />
+															<span>3 Miesiące</span>
+														</label>
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="13" onChange={this.handleRadioChange} />
+															<span>6 Miesięcy</span>
+														</label>
+													</div>
+													<div className="row">
+														<div className="col s4">
+															<p>149,99 zł ({parseFloat(Math.round(149.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+														<div className="col s4">
+															<p>169,99 zł ({parseFloat(Math.round(169.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+														<div className="col s4">
+															<p>189,99 zł ({parseFloat(Math.round(189.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+													</div>
+												</div>
+												<div id="plan-swipe-2" className="col s12">
+													<div className="row"></div>
+													<div className="row">
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="21" onChange={this.handleRadioChange} />
+															<span>1 Miesiąc</span>
+														</label>
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="22" onChange={this.handleRadioChange} />
+															<span>3 Miesiące</span>
+														</label>
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="23" onChange={this.handleRadioChange} />
+															<span>6 Miesięcy</span>
+														</label>
+													</div>
+													<div className="row">
+														<div className="col s4">
+															<p>259,99 zł ({parseFloat(Math.round(259.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+														<div className="col s4">
+															<p>279,99 zł ({parseFloat(Math.round(279.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+														<div className="col s4">
+															<p>299,99 zł ({parseFloat(Math.round(299.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+													</div>
+												</div>
+												<div id="plan-swipe-3" className="col s12">
+													<div className="row"></div>
+													<div className="row">
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="31" onChange={this.handleRadioChange} />
+															<span>1 Miesiąc</span>
+														</label>
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="32" onChange={this.handleRadioChange} />
+															<span>3 Miesiące</span>
+														</label>
+														<label className="col s4 black-text">
+															<input name="plan-group" type="radio" value="33" onChange={this.handleRadioChange} />
+															<span>6 Miesięcy</span>
+														</label>
+													</div>
+													<div className="row">
+														<div className="col s4">
+															<p>439,99 zł ({parseFloat(Math.round(439.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+														<div className="col s4">
+															<p>459,99 zł ({parseFloat(Math.round(459.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+														<div className="col s4">
+															<p>479,99 zł ({parseFloat(Math.round(479.99 * 100) / 100 / 12).toFixed(2)} zł / mc)</p>
+														</div>
+													</div>
+												</div>
+												{this.state.plan}
+											</div>
+										</div>
+
 										<button className="btn waves-effect waves-light" style={{ width: '100%' }} type="submit" name="action">Zarejestruj się
-									</button>
+										</button>
 									</div>
 								</div>
 							</div>

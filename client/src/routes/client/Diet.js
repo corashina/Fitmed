@@ -19,7 +19,7 @@ class Diet extends Component {
   render() {
     return (
       <div>
-        {Object.keys(this.state.diet).map((key) => <p>{key} - {this.state.diet[key]}</p>)}
+        {Object.keys(this.state.diet).map((e) => <p>{e}</p>)}
       </div>
     )
   }

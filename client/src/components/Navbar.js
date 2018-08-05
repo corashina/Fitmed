@@ -21,7 +21,8 @@ class Navbar extends Component {
           <div className="nav-wrapper white" style={{ padding: '0 1rem' }}>
             <a href="/" className="brand-logo">Fitmed</a>
             <ul className="right hide-on-med-and-down">
-              {this.props.auth.isAuthenticated && this.props.auth.user.role === 'User' &&
+              {this.props.auth.isAuthenticated &&
+                this.props.auth.user.isAdmin === false && this.props.auth.user.isDietician === false &&
                 < div >
                   <li><a href="/panel"><i className="material-icons left">format_list_bulleted</i>Panel</a></li>
                   <li><a href="/dieta"><i className="material-icons left">local_dining</i>Dieta</a></li>
@@ -31,7 +32,7 @@ class Navbar extends Component {
                   <li onClick={this.onLogout}><a href="/logowanie"><i className="material-icons right">power_settings_new</i></a></li>
                 </div>
               }
-              {this.props.auth.isAuthenticated && this.props.auth.user.role === 'Admin' &&
+              {this.props.auth.isAuthenticated && this.props.auth.user.isAdmin &&
                 < div >
                   <li><a href="/admin/uzytkownicy"><i className="material-icons right">format_list_bulleted</i>Pacjenci</a></li>
                   <li><a href="/admin/diety"><i className="material-icons left">local_dining</i>Diety</a></li>

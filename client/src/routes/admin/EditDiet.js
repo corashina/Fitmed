@@ -23,6 +23,7 @@ class EditDiet extends Component {
       searchByProtein: 0,
       searchByFat: 0,
       searchByCarbon: 0,
+      shopping: [],
       addComment: '',
       errors: {}
     }
@@ -53,8 +54,7 @@ class EditDiet extends Component {
   }
   deleteComment(e) { this.props.deleteComment(e, this.props.match.params.id) }
   render() {
-
-    var shopping = this.state.recipes.filter(e => [...new Set(this.state.fields.map(e => this.state.diet[e]).reduce((a, b) => a.concat(b), []))].indexOf(e.name >= 0))
+    var shopping = this.state.recipes || this.state.recipes.filter(e => [...new Set(this.state.fields.map(e => this.state.diet[e]).reduce((a, b) => a.concat(b), []))].indexOf(e.name) >= 0)
 
     var filteredRecipes = this.state.recipes
       .filter(recipe => recipe.name.toLowerCase().includes(this.state.searchByName.toLowerCase()))
@@ -199,7 +199,7 @@ class EditDiet extends Component {
                 <input name="addComment" placeholder="Dodaj komentarz" type="text" onChange={this.handleChange} />
               </div>
               <div className="row">
-                <button className="btn waves-effect waves-light col s12 green" type="submit" onSubmit={this.handleSubmit}>Dodaj</button>
+                <button className="btn waves-effect waves-light col s12" type="submit" onSubmit={this.handleSubmit}>Dodaj</button>
               </div>
             </form>
             <ul className="collection">

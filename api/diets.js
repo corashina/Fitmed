@@ -52,7 +52,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 })
 
 
-router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
     const { errors, isValid } = validateDiet(req.body);
 
     if (!isValid) return res.status(400).json(errors);
@@ -95,7 +95,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 })
 
 
-router.post('/:id/addRecipe', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/:id/addRecipe', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
     const errors = {};
     const id = req.params.id;
     const data = req.body.data;
@@ -117,7 +117,7 @@ router.post('/:id/addRecipe', passport.authenticate('jwt', { session: false }), 
     }
 })
 
-router.post('/:id/deleteRecipe', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/:id/deleteRecipe', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
     const errors = {};
     const id = req.params.id;
     const field = req.body.field;
@@ -139,7 +139,7 @@ router.post('/:id/deleteRecipe', passport.authenticate('jwt', { session: false }
 })
 
 
-router.put('/:id/updateTime', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.put('/:id/updateTime', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
     const errors = {};
     const id = req.params.id;
     const time = req.body.time;
@@ -165,7 +165,7 @@ router.put('/:id/updateTime', passport.authenticate('jwt', { session: false }), 
     }
 })
 
-router.post('/:id/addComment', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/:id/addComment', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
     const errors = {};
     const id = req.params.id;
     const comment = req.body.comment;

@@ -30,7 +30,9 @@ router.post('/register', (req, res) => {
         birthday: req.body.birthday,
         sex: req.body.sex,
         phone: req.body.phone,
-        role: 'User'
+        plan: req.body.plan,
+        isDietician: false,
+        isAdmin: false
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -84,7 +86,7 @@ router.post('/login', (req, res) => {
   })
 })
 
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
   User.find().then(users => {
     if (users) {
       users.sort((a, b) => a.firstname - b.lastname).reverse();

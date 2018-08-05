@@ -32,7 +32,6 @@ class RecipeList extends Component {
               <th>Składniki</th>
               <th>Przepis</th>
               <th>Cechy wykluczające</th>
-              <th>Usuń</th>
             </tr>
           </thead>
           <tbody>
@@ -46,9 +45,6 @@ class RecipeList extends Component {
                 <td>{recipe.ingredients.map((e, i) => <span key={i}>{e.name} </span>)}</td>
                 <td>{recipe.execution}</td>
                 <td>{recipe.exclude}</td>
-                <td>
-                  <a className="waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteRecipe(recipe.name)}><i className="material-icons">close</i></a>
-                </td>
               </tr>)}
           </tbody>
         </table>

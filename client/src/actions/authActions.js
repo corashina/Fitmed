@@ -32,9 +32,9 @@ export const registerUser = (newUser, history) => dispatch => {
     });
 };
 
-export const getUsers = () => dispatch => {
+export const getUsers = (history) => dispatch => {
   axios
-    .get('/api/users', { params: { jwt: localStorage.getItem('jwt') } })
+    .get('/api/users')
     .then(res => {
       dispatch({
         type: GET_USERS,
@@ -42,6 +42,7 @@ export const getUsers = () => dispatch => {
       })
     })
     .catch(err => {
+      history.push('/404')
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data

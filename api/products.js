@@ -4,13 +4,10 @@ const router = express.Router();
 const passport = require('passport');
 
 const validateAddProduct = require('../validation/product');
-const validateAdmin = require('../validation/admin')
 
 const Product = require('../models/Product');
 
-router.get('/test', (req, res) => res.json({ message: 'Product api works' }));
-
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   Product.find().then(product => {
     if (product) {
       product.sort((a, b) => a.name - b.name).reverse();
@@ -21,7 +18,7 @@ router.get('/', (req, res) => {
   })
 })
 
-router.post('/', (req, res) => {
+router.post('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
   const { errors, isValid } = validateAddProduct(req.body);
 
   if (!isValid) return res.status(400).json(errors);
@@ -46,7 +43,7 @@ router.post('/', (req, res) => {
   });
 })
 
-router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.delete('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
   Product.findOne({ name: req.query.name })
     .then(product => {
       product.remove()

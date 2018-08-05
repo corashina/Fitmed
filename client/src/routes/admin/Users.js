@@ -10,13 +10,8 @@ class Users extends Component {
       users: []
     }
   }
-  componentDidMount() {
-    this.props.getUsers();
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors.permission) this.props.history.push('/404')
-    if (nextProps.auth.users) this.setState({ users: nextProps.auth.users })
-  }
+  componentDidMount() { this.props.getUsers(this.props.history) }
+  componentWillReceiveProps(nextProps) { if (nextProps.auth.users) this.setState({ users: nextProps.auth.users }) }
   render() {
     return (
       <table className="striped highlight centered">
