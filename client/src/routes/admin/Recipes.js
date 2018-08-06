@@ -82,12 +82,81 @@ class Recipes extends Component {
 
     return (
       <div>
+        <div className="row">
+          <div className="col s3 card-panel">
+            <div className="row">
+              <div className="input-field col s12">
+                <a className="waves-effect waves-light btn modal-trigger" style={{ width: '100%' }} href="#modal1">Dodaj przepis</a>
+              </div>
+            </div>
+            <div className="row">
+              <label className="col s12">
+                <input name="group1" type="radio" type="radio" value="sortByName" checked={this.state.sortByName} onChange={this.handleChange} />
+                <span>Sortuj po nazwie</span>
+              </label>
+            </div>
+            <div className="row">
+              <label className="col s12">
+                <input name="group1" type="radio" value="sortByCalories" checked={this.state.sortByCalories} onChange={this.handleChange} />
+                <span>Sortuj po kaloriach</span>
+              </label>
+            </div>
+            <div className="row">
+              <label className="col s12">
+                <input name="group1" type="radio" value="sortByProtein" checked={this.state.sortByProtein} onChange={this.handleChange} />
+                <span>Sortuj po białku</span>
+              </label>
+            </div>
+            <div className="row">
+              <label className="col s12">
+                <input name="group1" type="radio" value="sortByFat" checked={this.state.sortByFat} onChange={this.handleChange} />
+                <span>Sortuj po tłuszczu</span>
+              </label>
+            </div>
+            <div className="row">
+              <label className="col s12">
+                <input name="group1" type="radio" value="sortByCarb" checked={this.state.sortByCarb} onChange={this.handleChange} />
+                <span>Sortuj po węglowodanach</span>
+              </label>
+            </div>
+          </div>
+          <div className="col s9">
+            <table className="striped highlight">
+              <thead >
+                <tr>
+                  <th>Nazwa</th>
+                  <th>Kalorie</th>
+                  <th>Białko</th>
+                  <th>Tłuszcz</th>
+                  <th>Węglowodany</th>
+                  <th>Składniki</th>
+                  <th>Przepis</th>
+                  <th>Cechy wykluczające</th>
+                  <th>Usuń</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredRecipes.map((recipe) =>
+                  <tr key={recipe.name}>
+                    <td>{recipe.name}</td>
+                    <td>{recipe.calories}</td>
+                    <td>{recipe.protein}</td>
+                    <td>{recipe.fat}</td>
+                    <td>{recipe.carbon}</td>
+                    <td>{recipe.ingredients.map((e, i) => <span key={i}>{e.name} </span>)}</td>
+                    <td>{recipe.execution}</td>
+                    <td>{recipe.exclude}</td>
+                    <td>
+                      <a className="btn-floating waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteRecipe(recipe.name)}><i className="material-icons">close</i></a>
+                    </td>
+                  </tr>)}
+              </tbody>
+            </table>
+          </div>
+        </div>
         <div className="row" >
           <form className="col s12" noValidate onSubmit={this.onSubmit}>
             <div className="row">
-              <div className="input-field col s12 center">
-                <a className="waves-effect waves-light btn modal-trigger" href="#modal1">Dodaj przepis</a>
-              </div>
               <div id="modal1" className="modal">
                 <div className="modal-content">
                   <h4 className="center">Dodaj przepis</h4>
@@ -159,7 +228,7 @@ class Recipes extends Component {
                     <span className="helper-text" data-error={this.state.errors.ingredients}></span>
                   </div>
                   <div className="input-field col s12">
-                    <table className="striped highlight">
+                    <table className="striped highlight centered">
                       <thead >
                         <tr>
                           <th>Nazwa</th>
@@ -187,61 +256,6 @@ class Recipes extends Component {
             </div>
           </form>
         </div>
-        <div className="row">
-          <div className="col s6 offset-s3">
-            <label className="col">
-              <input name="group1" type="radio" type="radio" value="sortByName" checked={this.state.sortByName} onChange={this.handleChange} />
-              <span>Sortuj po nazwie</span>
-            </label>
-            <label className="col">
-              <input name="group1" type="radio" value="sortByCalories" checked={this.state.sortByCalories} onChange={this.handleChange} />
-              <span>Sortuj po kaloriach</span>
-            </label>
-            <label className="col">
-              <input name="group1" type="radio" value="sortByProtein" checked={this.state.sortByProtein} onChange={this.handleChange} />
-              <span>Sortuj po białku</span>
-            </label>
-            <label className="col">
-              <input name="group1" type="radio" value="sortByFat" checked={this.state.sortByFat} onChange={this.handleChange} />
-              <span>Sortuj po tłuszczu</span>
-            </label>
-            <label className="col">
-              <input name="group1" type="radio" value="sortByCarb" checked={this.state.sortByCarb} onChange={this.handleChange} />
-              <span>Sortuj po węglowodanach</span>
-            </label>
-          </div>
-        </div>
-        <table className="striped highlight">
-          <thead >
-            <tr>
-              <th>Nazwa</th>
-              <th>Kalorie</th>
-              <th>Białko</th>
-              <th>Tłuszcz</th>
-              <th>Węglowodany</th>
-              <th>Składniki</th>
-              <th>Przepis</th>
-              <th>Cechy wykluczające</th>
-              <th>Usuń</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredRecipes.map((recipe) =>
-              <tr key={recipe.name}>
-                <td>{recipe.name}</td>
-                <td>{recipe.calories}</td>
-                <td>{recipe.protein}</td>
-                <td>{recipe.fat}</td>
-                <td>{recipe.carbon}</td>
-                <td>{recipe.ingredients.map((e, i) => <span key={i}>{e.name} </span>)}</td>
-                <td>{recipe.execution}</td>
-                <td>{recipe.exclude}</td>
-                <td>
-                  <a className="btn-floating waves-effect waves-light btn-small red" onClick={(e) => this.props.deleteRecipe(recipe.name)}><i className="material-icons">close</i></a>
-                </td>
-              </tr>)}
-          </tbody>
-        </table>
       </div >
     )
   }

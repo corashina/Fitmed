@@ -21,7 +21,7 @@ class Navbar extends Component {
           <div className="nav-wrapper white" style={{ padding: '0 1rem' }}>
             <a href="/" className="brand-logo">Fitmed</a>
             <ul className="right hide-on-med-and-down">
-              {this.props.auth.isAuthenticated &&
+              {this.props.auth.isAuthenticated && this.props.auth.user.isVerified &&
                 this.props.auth.user.isAdmin === false && this.props.auth.user.isDietician === false &&
                 < div >
                   <li><a href="/panel"><i className="material-icons left">format_list_bulleted</i>Panel</a></li>
@@ -52,12 +52,14 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(mapStateToProps, { logoutUser })(Navbar)

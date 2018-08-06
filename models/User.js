@@ -42,6 +42,11 @@ const UserSchema = new Schema({
     type: Boolean,
     required: true
   },
+  isVerified: {
+    type: Boolean,
+    required: true,
+    default: false,
+  }
 }, { timestamps: true })
 
 module.exports = User = mongoose.model('User', UserSchema);

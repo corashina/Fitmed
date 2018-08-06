@@ -11,6 +11,7 @@ import Landing from './routes/Landing';
 import Register from './routes/Register';
 import Login from './routes/Login';
 import NotFound from './routes/NotFound';
+import ConfirmEmail from './routes/ConfirmEmail';
 
 import Panel from './routes/client/Panel';
 import RecipeList from './routes/client/RecipeList';
@@ -24,6 +25,7 @@ import Diets from './routes/admin/Diets';
 import EditDiet from './routes/admin/EditDiet';
 import Recipes from './routes/admin/Recipes';
 import Products from './routes/admin/Products';
+import Trainings from './routes/admin/Trainings';
 
 import Navbar from './components/Navbar';
 
@@ -49,6 +51,7 @@ class App extends Component {
               <Route path='/' exact component={Landing} />
               <Route path='/rejestracja' exact component={Register} />
               <Route path='/logowanie' exact component={Login} />
+              <Route path='/potwierdz-email/:token' exact component={ConfirmEmail} />
               <Switch>
                 <PrivateRoute path='/panel' exact component={Panel} />
                 <PrivateRoute path='/suplementacja' exact component={Supplementation} />
@@ -62,6 +65,7 @@ class App extends Component {
                 <PrivateRoute path='/admin/diety' exact component={Diets} />
                 <PrivateRoute path='/admin/przepisy' exact component={Recipes} />
                 <PrivateRoute path='/admin/produkty' exact component={Products} />
+                <PrivateRoute path='/admin/treningi' exact component={Trainings} />
                 <Route path='/404' exact component={NotFound} />
                 <Redirect to="/404" />
               </Switch>

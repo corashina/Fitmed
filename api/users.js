@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode')
 const bcrypt = require('bcrypt');
 const keys = require('../config/keys_dev');
 const passport = require('passport');
+const nodemailer = require('nodemailer');
 
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
@@ -32,7 +34,8 @@ router.post('/register', (req, res) => {
         phone: req.body.phone,
         plan: req.body.plan,
         isDietician: false,
-        isAdmin: false
+        isAdmin: false,
+        isVerified: false
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -45,7 +48,6 @@ router.post('/register', (req, res) => {
             .catch(err => console.log(err));
         });
       });
-
     }
   });
 });
@@ -72,6 +74,26 @@ router.post('/login', (req, res) => {
           keys.secretOrKey,
           { expiresIn: 3600 },
           (err, token) => {
+            if (!user.isVerified) {
+              let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                host: 'smtp.gmail.com',
+                auth: { user: "fiutmed@gmail.com", pass: "bolero123" },
+              });
+
+              let mailOptions = {
+                from: '"Fitmed 👻" <fiutmed@gmail.com>',
+                to: user.email,
+                subject: 'Potwierdz adres email',
+                text: `${token}`,
+                html: `'<p>Potwierdz email <a href="http://localhost:3000/potwierdz-email/${token}">http://localhost:3000/potwierdz-email/${token}</a></p>'`
+              };
+
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) return console.log(error);
+              });
+            }
+
             res.status(200).json({
               user,
               token: 'Bearer ' + token
@@ -86,6 +108,15 @@ router.post('/login', (req, res) => {
   })
 })
 
+
+router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const id = req.params.id;
+  User.findOne({ _id: id })
+    .then(user => res.status(200).json(user))
+    .catch(err => console.log(err))
+
+})
+
 router.get('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
   User.find().then(users => {
     if (users) {
@@ -97,6 +128,23 @@ router.get('/', passport.authenticate('jwt-admin', { session: false }), (req, re
   })
 })
 
+router.get('/confirm/:token', (req, res) => {
+  const token = req.params.token;
+  const decoded = jwt_decode(token);
+  if (decoded.user) {
+    if (decoded.user.isVerified) {
+      return res.status()
+    } else {
+      User.update({ _id: decoded.id }, { '$set': { 'isVerified': true } })
+        .then(user => {
+          decoded.user.isVerified = true;
+          return res.status(200).json(decoded.user)
+        })
+    }
+  } else {
+    res.status(400).json({ errors: `Token expired` })
+  }
+})
 
 
 module.exports = router;

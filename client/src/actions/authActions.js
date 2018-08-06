@@ -50,6 +50,23 @@ export const getUsers = (history) => dispatch => {
     });
 };
 
+export const getUser = (token) => dispatch => {
+  axios
+    .get(`/api/users/${token}`)
+    .then(res => {
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    });
+};
+
 export const logoutUser = (history) => dispatch => {
   localStorage.removeItem('jwt');
   setAuthToken(false);
@@ -61,4 +78,21 @@ export const setCurrentUser = decoded => {
     type: SET_CURRENT_USER,
     payload: decoded.user
   };
+};
+
+export const confirmEmail = (token) => dispatch => {
+  axios
+    .get(`/api/users/confirm/${token}`)
+    .then(res => {
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    });
 };

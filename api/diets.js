@@ -52,7 +52,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 })
 
 
-router.post('/', passport.authenticate('jwt-admin', { session: false }), (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     const { errors, isValid } = validateDiet(req.body);
 
     if (!isValid) return res.status(400).json(errors);
