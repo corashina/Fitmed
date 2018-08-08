@@ -6,6 +6,17 @@ const validateAddRecipe = require('../validation/recipe');
 
 const Recipe = require('../models/Recipe');
 
+router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    Recipe.findById({ _id: req.params.id })
+      .then(recipe => {
+        if (recipe) return res.status(200).json(recipe)
+        else return res.status(400).json({ errors: 'Przepis nie istnieje' })
+      })
+      .catch(err => console.log(err))
+  }
+})
+
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   Recipe.find().then(recipe => {
     if (recipe) {
@@ -13,6 +24,17 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
       return res.status(200).json(recipe);
     } else {
       return res.status(400).json({ error: 'No products' })
+    }
+  })
+})
+
+router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const id = req.params.id;
+  Recipe.findOne({ name }).then(recipe => {
+    if (recipe) {
+      return res.status(200).json(recipe);
+    } else {
+      return res.status(400).json({ error: 'No recipe' })
     }
   })
 })

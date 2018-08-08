@@ -15,6 +15,7 @@ import ConfirmEmail from './routes/ConfirmEmail';
 
 import Panel from './routes/client/Panel';
 import RecipeList from './routes/client/RecipeList';
+import Recipe from './routes/client/Recipe';
 import Supplementation from './routes/client/Supplementation';
 import CreateSupplementation from './routes/client/CreateSupplementation';
 import Diet from './routes/client/Diet';
@@ -55,6 +56,7 @@ class App extends Component {
               <Switch>
                 <PrivateRoute path='/panel' exact component={Panel} />
                 <PrivateRoute path='/suplementacja' exact component={Supplementation} />
+                <PrivateRoute path='/przepisy/:id' exact component={Recipe} />
                 <PrivateRoute path='/przepisy' exact component={RecipeList} />
                 <PrivateRoute path='/dieta' exact component={Diet} />
                 <PrivateRoute path='/dieta/stworz' exact component={CreateDiet} />

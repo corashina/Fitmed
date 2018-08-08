@@ -18,6 +18,23 @@ export const getRecipes = (history) => dispatch => {
     });
 };
 
+export const getRecipe = (id) => dispatch => {
+  axios
+    .get(`/api/recipes/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_RECIPES,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    });
+};
+
 export const addRecipe = (newProduct) => dispatch => {
   axios
     .post('/api/recipes', newProduct)
