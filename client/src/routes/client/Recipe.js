@@ -17,17 +17,20 @@ class Recipe extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col s6 offset-s3 card-panel">
-          <p>Nazwa - {this.state.recipe.name}</p>
-          <p>Kalorie - {this.state.recipe.calories}</p>
-          <p>Białko - {this.state.recipe.protein}</p>
-          <p>Tłuszcz - {this.state.recipe.fat}</p>
-          <p>Węglowodany - {this.state.recipe.carbon}</p>
-          <p>Cechy wykluczające - {this.state.recipe.exclude}</p>
-          <p>Przepis - {this.state.recipe.execution}</p>
-          {Array.isArray(this.state.recipe.ingredients) &&
-            this.state.recipe.ingredients.map((e, i) => <span key={i}>{e.name} </span>)
-          }
+        <div className="col s6 offset-s3 card">
+          <div class="card-content">
+            <span class="card-title">{this.state.recipe.name}</span>
+            <p>Kalorie - {this.state.recipe.calories}</p>
+            <p>Białko - {this.state.recipe.protein}</p>
+            <p>Tłuszcz - {this.state.recipe.fat}</p>
+            <p>Węglowodany - {this.state.recipe.carbon}</p>
+            <p>Cechy wykluczające - {this.state.recipe.exclude}</p>
+            <p>Przepis - {this.state.recipe.execution}</p>
+            {Array.isArray(this.state.recipe.ingredients) &&
+              this.state.recipe.ingredients.map((e, i) => <span key={i}>{e.name} </span>)
+            }
+          </div>
+
         </div>
       </div>
     )

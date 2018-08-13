@@ -191,7 +191,6 @@ class EditDiet extends Component {
                 </div>
               </div>
             )}
-
           </div>
           <div id="komentarze" className="col s6 offset-s3 input-field">
             <form onSubmit={this.handleSubmit}>
