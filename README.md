@@ -6,8 +6,7 @@
 $ npm i // in both default path and client folder
 $ npm run dev
 ```
- - Login: admin123@gmail.com
- - Password: test123
+ - Create your own mlab database and connect it 
 ## Features
  - Login / Register
  - JWT Authentication
@@ -17,4 +16,4 @@ $ npm run dev
  - Edit users' diets 
  - View products' kcal, protein, carbs, fat
 ## Preview
-![alt text](https://raw.githubusercontent.com/Tomasz-Zielinski/Fitmed/master/client/img/preview.png)
+![alt text](https://raw.githubusercontent.com/Tomasz-Zielinski/Fitmed/master/client/src/img/preview.png)
