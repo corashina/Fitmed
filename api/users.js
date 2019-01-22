@@ -78,11 +78,11 @@ router.post('/login', (req, res) => {
               let transporter = nodemailer.createTransport({
                 service: 'gmail',
                 host: 'smtp.gmail.com',
-                auth: { user: "fiutmed@gmail.com", pass: "bolero123" },
+                auth: { user: "fitmed@gmail.com", pass: "test123" },
               });
 
               let mailOptions = {
-                from: '"Fitmed 👻" <fiutmed@gmail.com>',
+                from: '"Fitmed 👻" <fitmed@gmail.com>',
                 to: user.email,
                 subject: 'Potwierdz adres email',
                 text: `${token}`,

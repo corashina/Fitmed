@@ -13,8 +13,8 @@ class Panel extends Component {
           <div className="card horizontal">
             <div className="card-stacked">
               <div className="card-content">
-                <h5>Strona główna</h5>
-                <p>Siemano</p>
+                <h5>Main page</h5>
+                <p>Hello</p>
               </div>
             </div>
           </div>

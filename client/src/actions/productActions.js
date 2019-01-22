@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getProducts = () => dispatch => {
   axios
-    .get('/api/products', { params: { jwt: localStorage.getItem('jwt') } })
+    .get('/api/products')
     .then(res =>
       dispatch({
         type: GET_PRODUCTS,
